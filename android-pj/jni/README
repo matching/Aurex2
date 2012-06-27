@@ -1,0 +1,10 @@
+
+
+How to Compile
+
+$ ln -s ../../common common
+$ ln -s ../../android android
+$ ln -s ../../unixlib unixlib
+## or directory copy
+$ ndk-build
+
