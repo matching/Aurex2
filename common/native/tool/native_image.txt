@@ -1,0 +1,8 @@
+%
+outfile native.h
+size 0x120000
+%
+static unsigned char nativecode[]=
+%
+0x0 ./rupsys.bin
+%

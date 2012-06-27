@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent" android:layout_height="wrap_content">
+<SurfaceView android:id="@+id/displayView" android:layout_height="match_parent" android:layout_width="match_parent"></SurfaceView>
+<RelativeLayout android:id="@+id/relativeLayout1" android:layout_height="wrap_content" android:layout_width="match_parent">
+    <TextView android:id="@+id/enterView" android:layout_alignParentRight="true" android:background="@drawable/border" android:textSize="20sp" android:layout_width="50dip" android:layout_height="100dip" android:text="@string/STR_ENTER"></TextView>
+    <TextView android:id="@+id/menuView" android:layout_toRightOf="@+id/controlView" android:text="@string/STR_MENU" android:layout_below="@+id/enterView" android:layout_alignParentRight="true" android:background="@drawable/border" android:layout_width="100dip" android:textSize="20sp" android:layout_height="100dip"></TextView>
+    <TextView android:id="@+id/filerView" android:text="@string/STR_FILER" android:layout_below="@+id/elView" android:textSize="20sp" android:background="@drawable/border" android:layout_width="50dip" android:layout_height="100dip"></TextView>
+    <TextView android:id="@+id/elView" android:text="@string/STR_EL" android:background="@drawable/border" android:textSize="20sp" android:layout_width="50dip" android:layout_height="100dip"></TextView>
+    <View android:id="@+id/controlView" android:layout_toRightOf="@+id/filerView" android:layout_width="fill_parent" android:layout_toLeftOf="@+id/enterView" android:background="@drawable/border" android:layout_height="200dip"></View>
+</RelativeLayout>
+</LinearLayout>

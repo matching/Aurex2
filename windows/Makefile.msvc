@@ -1,0 +1,157 @@
+# -*-mode:makefile; coding:shift_jis-dos-*-
+# $Id: Makefile.msvc,v 1.4 2006/02/10 14:10:57 fumi Exp $
+
+CXX	= cl
+# CXXFLAGS = -I$(COMMON_DIR)/include -Wall -GX
+COMMON_DIR = ../common
+TARGET	= aurex.exe
+COM_OUT_DIR = lib.msvc
+
+CXXFLAGS = -I$(COM_OUT_DIR) -DWIN32 -DMSVC -DWINVER=0x500 -D_WIN32_WINNT=0x500 -W3 -GX
+OPTIMIZE=-O2 -GL -G6 -arch:SSE -DNDEBUG
+
+DEPLIBS	= user32.lib gdi32.lib  winmm.lib comctl32.lib comdlg32.lib
+
+
+USE_CRT_DLL = 0
+
+!IF "$(USE_CRT_DLL)" == "1"
+CXXFLAGS = $(CXXFLAGS) -MD
+DEPLIBS = msvcrt.lib $(DEPLIBS)
+!ENDIF
+
+
+COMMON_OBJS=	$(COM_OUT_DIR)/codingbase.obj	\
+		$(COM_OUT_DIR)/codingascii.obj	\
+		$(COM_OUT_DIR)/codingshiftjis.obj	\
+		$(COM_OUT_DIR)/cpu.obj	\
+		$(COM_OUT_DIR)/mnexpr.obj	\
+		$(COM_OUT_DIR)/mncore.obj	\
+		$(COM_OUT_DIR)/mnprint.obj	\
+		$(COM_OUT_DIR)/cmlcd.obj		\
+		$(COM_OUT_DIR)/cmlcdfunc.obj		\
+		$(COM_OUT_DIR)/cmlcdfuncaa.obj		\
+		$(COM_OUT_DIR)/cmlcdfuncdefault.obj		\
+		$(COM_OUT_DIR)/cmlcdpix.obj		\
+		$(COM_OUT_DIR)/cmlcdpixaa.obj		\
+		$(COM_OUT_DIR)/cmlcdpixaa_noai.obj		\
+		$(COM_OUT_DIR)/cmlcdpixdefault.obj		\
+		$(COM_OUT_DIR)/cmlcdpixdefault_noai.obj		\
+		$(COM_OUT_DIR)/aapixel.obj		\
+		$(COM_OUT_DIR)/lcd.obj		\
+		$(COM_OUT_DIR)/lcdfunc.obj	\
+		$(COM_OUT_DIR)/lcdport.obj	\
+		$(COM_OUT_DIR)/blink.obj	\
+		$(COM_OUT_DIR)/blinkmgr.obj	\
+		$(COM_OUT_DIR)/reverse.obj	\
+		$(COM_OUT_DIR)/reversemgr.obj	\
+		$(COM_OUT_DIR)/lcdblrv.obj	\
+		$(COM_OUT_DIR)/lcdblrvmgr.obj	\
+		$(COM_OUT_DIR)/filerinibase.obj	\
+		$(COM_OUT_DIR)/filerinimgr.obj	\
+		$(COM_OUT_DIR)/ufilerini.obj	\
+		$(COM_OUT_DIR)/extlist.obj		\
+		$(COM_OUT_DIR)/sdlcd.obj		\
+		$(COM_OUT_DIR)/sdlcdfont.obj	\
+		$(COM_OUT_DIR)/cessjis.obj		\
+		$(COM_OUT_DIR)/rupaddress.obj	\
+		$(COM_OUT_DIR)/rupstruct.obj	\
+		$(COM_OUT_DIR)/ruputer.obj	\
+		$(COM_OUT_DIR)/ruputerexception.obj	\
+		$(COM_OUT_DIR)/memorycpu.obj	\
+		$(COM_OUT_DIR)/memory.obj	\
+		$(COM_OUT_DIR)/memorybase.obj	\
+		$(COM_OUT_DIR)/memoryinside.obj	\
+		$(COM_OUT_DIR)/rommmp.obj		\
+		$(COM_OUT_DIR)/romgaiji.obj	\
+		$(COM_OUT_DIR)/internalfont.obj	\
+		$(COM_OUT_DIR)/exmemory.obj	\
+		$(COM_OUT_DIR)/port.obj		\
+		$(COM_OUT_DIR)/interruption.obj	\
+		$(COM_OUT_DIR)/optionitem.obj	\
+		$(COM_OUT_DIR)/optionlist.obj	\
+		$(COM_OUT_DIR)/option.obj		\
+		$(COM_OUT_DIR)/optionbool.obj	\
+		$(COM_OUT_DIR)/optionint.obj	\
+		$(COM_OUT_DIR)/optionstring.obj	\
+		$(COM_OUT_DIR)/frame.obj		\
+		$(COM_OUT_DIR)/key.obj		\
+		$(COM_OUT_DIR)/keybuffer.obj	\
+		$(COM_OUT_DIR)/psdos.obj		\
+		$(COM_OUT_DIR)/x86reg.obj	\
+		$(COM_OUT_DIR)/fdmgr.obj		\
+		$(COM_OUT_DIR)/rupsys.obj	\
+		$(COM_OUT_DIR)/systimer.obj	\
+		$(COM_OUT_DIR)/timer.obj	\
+		$(COM_OUT_DIR)/timermgr.obj	\
+		$(COM_OUT_DIR)/timerresource.obj	\
+		$(COM_OUT_DIR)/timerresourcemgr.obj	\
+		$(COM_OUT_DIR)/thread.obj	\
+		$(COM_OUT_DIR)/psdos_file.obj	\
+		$(COM_OUT_DIR)/psdos_findfile.obj	\
+		$(COM_OUT_DIR)/sdfindfile.obj	\
+		$(COM_OUT_DIR)/wbios.obj		\
+		$(COM_OUT_DIR)/wbiossound.obj	\
+		$(COM_OUT_DIR)/sound.obj		\
+		$(COM_OUT_DIR)/soundsync.obj	\
+		$(COM_OUT_DIR)/soundsyncnull.obj	\
+		$(COM_OUT_DIR)/soundasync.obj	\
+		$(COM_OUT_DIR)/directory.obj		\
+		$(COM_OUT_DIR)/directoryconverter.obj	\
+		$(COM_OUT_DIR)/dirstack.obj		\
+		$(COM_OUT_DIR)/dirstacksjis.obj		\
+		$(COM_OUT_DIR)/directoryelement.obj	\
+		$(COM_OUT_DIR)/dosdirectory.obj		\
+		$(COM_OUT_DIR)/ruputerdirectory.obj	\
+		$(COM_OUT_DIR)/unixdirectory.obj	\
+		$(COM_OUT_DIR)/exffile.obj
+WIDGET_OBJS = \
+	$(COM_OUT_DIR)/sdlcdfactory.obj	\
+	$(COM_OUT_DIR)/widgetoption.obj
+
+WINDOWS_OBJS = \
+	$(COM_OUT_DIR)/main.obj	\
+	$(COM_OUT_DIR)/winruputer.obj \
+	$(COM_OUT_DIR)/winsound.obj	\
+	$(COM_OUT_DIR)/winlcdfont.obj	\
+	$(COM_OUT_DIR)/winlcdfontaa.obj	\
+	$(COM_OUT_DIR)/winlcdfontsjis.obj	\
+	$(COM_OUT_DIR)/winlcdfontaasjis.obj	\
+	$(COM_OUT_DIR)/winfindfile.obj	\
+	$(COM_OUT_DIR)/winlcdfactory.obj	\
+	$(COM_OUT_DIR)/winlcd.obj	\
+	$(COM_OUT_DIR)/winlcdflip.obj	\
+	$(COM_OUT_DIR)/winlcd102x64.obj	\
+	$(COM_OUT_DIR)/winoption.obj	\
+	$(COM_OUT_DIR)/winpropwindow.obj
+
+
+all:: lib_subdir collect $(TARGET)
+
+
+$(TARGET): $(COM_OUT_DIR)/common.lib $(COM_OUT_DIR)/widget.lib $(WINDOWS_OBJS) resource/all_resources.res
+	$(CXX) -Fe$@ $(WINDOWS_OBJS) $(COM_OUT_DIR)/widget.lib $(COM_OUT_DIR)/common.lib resource/all_resources.res $(DEPLIBS)
+
+$(COM_OUT_DIR)/widget.lib: $(WIDGET_OBJS)
+	link -lib -out:$@ $(WIDGET_OBJS)
+
+$(COM_OUT_DIR)/common.lib: $(COMMON_OBJS)
+	link -lib -out:$@ $(COMMON_OBJS)
+
+resource/all_resources.res: resource/all_resources.rc
+	rc -Iinclude -Iresource $?
+
+lib_subdir::
+	IF NOT EXIST $(COM_OUT_DIR) mkdir $(COM_OUT_DIR)
+
+clean::
+# 	del /q $(COM_OUT_DIR)/*
+	rm -f $(COM_OUT_DIR)/*.obj $(COM_OUT_DIR)/*.lib
+
+
+.cpp.obj:
+	$(CXX) $(CXXFLAGS) $(OPTIMIZE) -c -Fo$@ $<
+
+
+
+!include msvc/Makefile.collect

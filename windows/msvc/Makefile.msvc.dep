@@ -1,0 +1,267 @@
+$(COM_OUT_DIR)/codingbase.obj: ./coding/codingbase.cpp $(COMMON_DIR)/include/codingbase.h
+	lf2crlf ./coding/codingbase.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./coding -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/codingascii.obj: ./coding/codingascii.cpp $(COMMON_DIR)/include/codingascii.h $(COMMON_DIR)/include/codingbase.h
+	lf2crlf ./coding/codingascii.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./coding -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/codingshiftjis.obj: ./coding/codingshiftjis.cpp $(COMMON_DIR)/include/codingshiftjis.h $(COMMON_DIR)/include/codingascii.h $(COMMON_DIR)/include/codingbase.h $(COMMON_DIR)/include/cessjis.h
+	lf2crlf ./coding/codingshiftjis.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./coding -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/cpu.obj: ./cpu/cpu.cpp $(COMMON_DIR)/include/cpu.h $(COMMON_DIR)/include/mncore.h $(COMMON_DIR)/include/ruputerexception.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/memorycpu.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/interruption.h
+	lf2crlf ./cpu/cpu.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./cpu -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/mncore.obj: ./cpu/mncore.cpp $(COMMON_DIR)/include/cpu.h $(COMMON_DIR)/include/mncore.h $(COMMON_DIR)/include/ruputerexception.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/option.h $(COMMON_DIR)/include/optionlist.h $(COMMON_DIR)/include/memorycpu.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/interruption.h $(COMMON_DIR)/include/ruputerexception.h
+	lf2crlf ./cpu/mncore.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./cpu -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/mnexpr.obj: ./cpu/mnexpr.cpp $(COMMON_DIR)/include/cpu.h $(COMMON_DIR)/include/mncore.h $(COMMON_DIR)/include/ruputerexception.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/memorycpu.h $(COMMON_DIR)/include/memory.h
+	lf2crlf ./cpu/mnexpr.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./cpu -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/mnprint.obj: ./cpu/mnprint.cpp $(COMMON_DIR)/include/cpu.h $(COMMON_DIR)/include/mncore.h $(COMMON_DIR)/include/ruputerexception.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/memorycpu.h $(COMMON_DIR)/include/memory.h
+	lf2crlf ./cpu/mnprint.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./cpu -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/lcd.obj: ./lcd/lcd.cpp $(COMMON_DIR)/include/mncore.h $(COMMON_DIR)/include/lcd.h $(COMMON_DIR)/include/lcdfunc.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/log.h
+	lf2crlf ./lcd/lcd.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/lcdfunc.obj: ./lcd/lcdfunc.cpp $(COMMON_DIR)/include/lcdfunc.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/cmlcdfunc.h $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/blinkmgr.h $(COMMON_DIR)/include/lcdblrvmgr.h $(COMMON_DIR)/include/lcdblrv.h $(COMMON_DIR)/include/reversemgr.h $(COMMON_DIR)/include/rupaddress.h $(COMMON_DIR)/include/address.h $(COMMON_DIR)/include/rommmp.h $(COMMON_DIR)/include/romgaiji.h $(COMMON_DIR)/include/ruputerexception.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/log.h
+	lf2crlf ./lcd/lcdfunc.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/sdlcd.obj: ./lcd/sdlcd.cpp $(COMMON_DIR)/include/sdlcd.h
+	lf2crlf ./lcd/sdlcd.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/cmlcd.obj: ./lcd/cmlcd.cpp $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/cmlcdfunc.h $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/cmlcdfuncaa.h $(COMMON_DIR)/include/cmlcdfuncdefault.h $(COMMON_DIR)/include/cmlcdfunc.h $(COMMON_DIR)/include/cmlcdfuncdefault.h $(COMMON_DIR)/include/cmlcdpix.h $(COMMON_DIR)/include/lcdblrv.h $(COMMON_DIR)/include/sdlcd.h $(COMMON_DIR)/include/sdlcdfont.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/rupaddress.h $(COMMON_DIR)/include/address.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/blinkmgr.h $(COMMON_DIR)/include/lcdblrvmgr.h $(COMMON_DIR)/include/reversemgr.h $(COMMON_DIR)/include/option.h $(COMMON_DIR)/include/optionlist.h
+	lf2crlf ./lcd/cmlcd.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/cmlcdfunc.obj: ./lcd/cmlcdfunc.cpp $(COMMON_DIR)/include/cmlcdpix.h $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/lcdblrv.h $(COMMON_DIR)/include/cmlcdfunc.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/option.h $(COMMON_DIR)/include/optionlist.h
+	lf2crlf ./lcd/cmlcdfunc.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/cmlcdfuncaa.obj: ./lcd/cmlcdfuncaa.cpp $(COMMON_DIR)/include/cmlcdfunc.h $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/cmlcdfuncaa.h $(COMMON_DIR)/include/cmlcdfuncdefault.h $(COMMON_DIR)/include/cmlcdfunc.h $(COMMON_DIR)/include/cmlcdpix.h $(COMMON_DIR)/include/lcdblrv.h $(COMMON_DIR)/include/cmlcdpixdefault.h $(COMMON_DIR)/include/cmlcdpixdefault_noai.h $(COMMON_DIR)/include/cmlcdpixdefault.h $(COMMON_DIR)/include/sdlcd.h $(COMMON_DIR)/include/sdlcdfont.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/memory.h
+	lf2crlf ./lcd/cmlcdfuncaa.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/cmlcdfuncdefault.obj: ./lcd/cmlcdfuncdefault.cpp $(COMMON_DIR)/include/cmlcdfunc.h $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/cmlcdfuncdefault.h $(COMMON_DIR)/include/cmlcdfunc.h $(COMMON_DIR)/include/cmlcdpix.h $(COMMON_DIR)/include/lcdblrv.h $(COMMON_DIR)/include/cmlcdpixdefault.h $(COMMON_DIR)/include/cmlcdpixdefault_noai.h $(COMMON_DIR)/include/cmlcdpixdefault.h $(COMMON_DIR)/include/sdlcd.h $(COMMON_DIR)/include/sdlcdfont.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/memory.h
+	lf2crlf ./lcd/cmlcdfuncdefault.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/cmlcdpix.obj: ./lcd/cmlcdpix.cpp $(COMMON_DIR)/include/cmlcdpix.h $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/lcdblrv.h
+	lf2crlf ./lcd/cmlcdpix.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/cmlcdpixaa.obj: ./lcd/cmlcdpixaa.cpp $(COMMON_DIR)/include/cmlcdpix.h $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/lcdblrv.h $(COMMON_DIR)/include/cmlcdpixaa.h $(COMMON_DIR)/include/cmlcdpix.h $(COMMON_DIR)/include/aapixel.h $(COMMON_DIR)/include/lcdblrvmgr.h
+	lf2crlf ./lcd/cmlcdpixaa.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/cmlcdpixaa_noai.obj: ./lcd/cmlcdpixaa_noai.cpp $(COMMON_DIR)/include/cmlcdpix.h $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/lcdblrv.h $(COMMON_DIR)/include/cmlcdpixaa_noai.h $(COMMON_DIR)/include/cmlcdpixaa.h $(COMMON_DIR)/include/cmlcdpix.h $(COMMON_DIR)/include/aapixel.h $(COMMON_DIR)/include/lcdblrvmgr.h
+	lf2crlf ./lcd/cmlcdpixaa_noai.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/cmlcdpixdefault.obj: ./lcd/cmlcdpixdefault.cpp $(COMMON_DIR)/include/cmlcdpix.h $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/lcdblrv.h $(COMMON_DIR)/include/cmlcdpixdefault.h $(COMMON_DIR)/include/lcdblrvmgr.h
+	lf2crlf ./lcd/cmlcdpixdefault.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/cmlcdpixdefault_noai.obj: ./lcd/cmlcdpixdefault_noai.cpp $(COMMON_DIR)/include/cmlcdpix.h $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/lcdblrv.h $(COMMON_DIR)/include/cmlcdpixdefault.h $(COMMON_DIR)/include/cmlcdpixdefault_noai.h $(COMMON_DIR)/include/cmlcdpixdefault.h $(COMMON_DIR)/include/lcdblrvmgr.h
+	lf2crlf ./lcd/cmlcdpixdefault_noai.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/blink.obj: ./lcd/blink.cpp $(COMMON_DIR)/include/blink.h $(COMMON_DIR)/include/lcdblrv.h
+	lf2crlf ./lcd/blink.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/blinkmgr.obj: ./lcd/blinkmgr.cpp $(COMMON_DIR)/include/blinkmgr.h $(COMMON_DIR)/include/lcdblrvmgr.h $(COMMON_DIR)/include/lcdblrv.h $(COMMON_DIR)/include/blink.h
+	lf2crlf ./lcd/blinkmgr.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/reverse.obj: ./lcd/reverse.cpp $(COMMON_DIR)/include/reverse.h $(COMMON_DIR)/include/lcdblrv.h
+	lf2crlf ./lcd/reverse.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/reversemgr.obj: ./lcd/reversemgr.cpp $(COMMON_DIR)/include/reverse.h $(COMMON_DIR)/include/lcdblrv.h $(COMMON_DIR)/include/reversemgr.h $(COMMON_DIR)/include/lcdblrvmgr.h
+	lf2crlf ./lcd/reversemgr.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/lcdblrv.obj: ./lcd/lcdblrv.cpp $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/lcdblrv.h
+	lf2crlf ./lcd/lcdblrv.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/lcdblrvmgr.obj: ./lcd/lcdblrvmgr.cpp $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/lcdblrv.h $(COMMON_DIR)/include/lcdblrvmgr.h $(COMMON_DIR)/include/lcdblrv.h
+	lf2crlf ./lcd/lcdblrvmgr.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/lcdport.obj: ./lcd/lcdport.cpp $(COMMON_DIR)/include/rupaddress.h $(COMMON_DIR)/include/address.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/cmlcdfunc.h $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/cmlcdpix.h $(COMMON_DIR)/include/lcdblrv.h $(COMMON_DIR)/include/lcdport.h $(COMMON_DIR)/include/memory.h
+	lf2crlf ./lcd/lcdport.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/aapixel.obj: ./lcd/aapixel.cpp $(COMMON_DIR)/include/aapixel.h
+	lf2crlf ./lcd/aapixel.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./lcd -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/log.obj: ./log/log.cpp $(COMMON_DIR)/include/log.h $(COMMON_DIR)/include/logoutput.h
+	lf2crlf ./log/log.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./log -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/logoutput.obj: ./log/logoutput.cpp $(COMMON_DIR)/include/logoutput.h
+	lf2crlf ./log/logoutput.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./log -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/logoutputstderr.obj: ./log/logoutputstderr.cpp $(COMMON_DIR)/include/logoutputstderr.h $(COMMON_DIR)/include/logoutput.h
+	lf2crlf ./log/logoutputstderr.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./log -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/logoutputfile.obj: ./log/logoutputfile.cpp $(COMMON_DIR)/include/logoutputfile.h $(COMMON_DIR)/include/logoutput.h
+	lf2crlf ./log/logoutputfile.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./log -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/filerinibase.obj: ./filerini/filerinibase.cpp $(COMMON_DIR)/include/filerinibase.h $(COMMON_DIR)/include/extlist.h
+	lf2crlf ./filerini/filerinibase.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./filerini -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/filerinimgr.obj: ./filerini/filerinimgr.cpp $(COMMON_DIR)/include/filerini.h $(COMMON_DIR)/include/filerinibase.h $(COMMON_DIR)/include/ufilerini.h $(COMMON_DIR)/include/filerinimgr.h $(COMMON_DIR)/include/extlist.h
+	lf2crlf ./filerini/filerinimgr.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./filerini -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/ufilerini.obj: ./filerini/ufilerini.cpp $(COMMON_DIR)/include/ufilerini.h $(COMMON_DIR)/include/filerinibase.h
+	lf2crlf ./filerini/ufilerini.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./filerini -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/extlist.obj: ./filerini/extlist.cpp $(COMMON_DIR)/include/extlist.h
+	lf2crlf ./filerini/extlist.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./filerini -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/sdlcdfont.obj: ./font/sdlcdfont.cpp $(COMMON_DIR)/include/sdlcdfont.h
+	lf2crlf ./font/sdlcdfont.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./font -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/cessjis.obj: ./font/cessjis.cpp $(COMMON_DIR)/include/cessjis.h
+	lf2crlf ./font/cessjis.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./font -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/ruputer.obj: ./main/ruputer.cpp $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/cpu.h $(COMMON_DIR)/include/mncore.h $(COMMON_DIR)/include/ruputerexception.h $(COMMON_DIR)/include/frame.h $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/sdlcd.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/memorycpu.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/thread.h $(COMMON_DIR)/include/threadable.h $(COMMON_DIR)/include/state.h $(COMMON_DIR)/include/timer.h $(COMMON_DIR)/include/timermgr.h $(COMMON_DIR)/include/timerresourcemgr.h $(COMMON_DIR)/include/rupaddress.h $(COMMON_DIR)/include/address.h $(COMMON_DIR)/include/keybuffer.h $(COMMON_DIR)/include/rupstruct.h $(COMMON_DIR)/include/systimer.h $(COMMON_DIR)/include/exmemory.h $(COMMON_DIR)/include/option.h $(COMMON_DIR)/include/optionlist.h $(COMMON_DIR)/include/blinkmgr.h $(COMMON_DIR)/include/lcdblrvmgr.h $(COMMON_DIR)/include/lcdblrv.h $(COMMON_DIR)/include/reversemgr.h $(COMMON_DIR)/include/lcdblrvmgr.h $(COMMON_DIR)/include/directory.h $(COMMON_DIR)/include/codingsystem.h $(COMMON_DIR)/include/filerini.h $(COMMON_DIR)/include/filerinibase.h $(COMMON_DIR)/include/ufilerini.h $(COMMON_DIR)/include/filerinimgr.h $(COMMON_DIR)/include/ruputerdirectory.h $(COMMON_DIR)/include/dosdirectory.h $(COMMON_DIR)/include/directory.h $(COMMON_DIR)/include/directoryconverter.h $(COMMON_DIR)/include/rommmp.h $(COMMON_DIR)/include/port.h $(COMMON_DIR)/include/internalfont.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/log.h $(COMMON_DIR)/include/logoutput.h $(COMMON_DIR)/include/logoutputfile.h $(COMMON_DIR)/include/logoutput.h $(COMMON_DIR)/include/logoutputstderr.h
+	lf2crlf ./main/ruputer.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./main -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/ruputerexception.obj: ./main/ruputerexception.cpp $(COMMON_DIR)/include/ruputerexception.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/cpu.h $(COMMON_DIR)/include/mncore.h $(COMMON_DIR)/include/ruputerexception.h
+	lf2crlf ./main/ruputerexception.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./main -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/rupaddress.obj: ./main/rupaddress.cpp $(COMMON_DIR)/include/rupaddress.h $(COMMON_DIR)/include/address.h $(COMMON_DIR)/include/memory.h
+	lf2crlf ./main/rupaddress.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./main -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/rupstruct.obj: ./main/rupstruct.cpp $(COMMON_DIR)/include/rupstruct.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/address.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h
+	lf2crlf ./main/rupstruct.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./main -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/rommmp.obj: ./mmp/rommmp.cpp ./mmp/mmpdata.h $(COMMON_DIR)/include/rommmp.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/ruputerexception.h $(COMMON_DIR)/include/throwable.h
+	lf2crlf ./mmp/rommmp.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./mmp -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/romgaiji.obj: ./mmp/romgaiji.cpp $(COMMON_DIR)/include/romgaiji.h ./mmp/gaijidata.h
+	lf2crlf ./mmp/romgaiji.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./mmp -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/frame.obj: ./other/frame.cpp $(COMMON_DIR)/include/frame.h $(COMMON_DIR)/include/log.h $(COMMON_DIR)/include/option.h $(COMMON_DIR)/include/optionlist.h
+	lf2crlf ./other/frame.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./other -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/key.obj: ./other/key.cpp $(COMMON_DIR)/include/cpu.h $(COMMON_DIR)/include/mncore.h $(COMMON_DIR)/include/ruputerexception.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/keybuffer.h $(COMMON_DIR)/include/rupaddress.h $(COMMON_DIR)/include/address.h $(COMMON_DIR)/include/memory.h
+	lf2crlf ./other/key.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./other -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/keybuffer.obj: ./other/keybuffer.cpp $(COMMON_DIR)/include/keybuffer.h $(COMMON_DIR)/include/rupaddress.h $(COMMON_DIR)/include/address.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/log.h
+	lf2crlf ./other/keybuffer.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./other -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/interruption.obj: ./other/interruption.cpp $(COMMON_DIR)/include/address.h $(COMMON_DIR)/include/interruption.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/cpu.h $(COMMON_DIR)/include/mncore.h $(COMMON_DIR)/include/ruputerexception.h $(COMMON_DIR)/include/rupsys.h $(COMMON_DIR)/include/psdos.h $(COMMON_DIR)/include/wbios.h $(COMMON_DIR)/include/lcd.h
+	lf2crlf ./other/interruption.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./other -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/exffile.obj: ./other/exffile.cpp $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h
+	lf2crlf ./other/exffile.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./other -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/x86reg.obj: ./psdos/x86reg.cpp $(COMMON_DIR)/include/x86reg.h $(COMMON_DIR)/include/memory.h
+	lf2crlf ./psdos/x86reg.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./psdos -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/fdmgr.obj: ./psdos/fdmgr.cpp $(COMMON_DIR)/include/fdmgr.h
+	lf2crlf ./psdos/fdmgr.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./psdos -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/psdos_file.obj: ./psdos/psdos_file.cpp $(COMMON_DIR)/include/x86reg.h $(COMMON_DIR)/include/psdos.h $(COMMON_DIR)/include/fdmgr.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/directoryconverter.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/ruputerdirectory.h $(COMMON_DIR)/include/dosdirectory.h $(COMMON_DIR)/include/directory.h $(COMMON_DIR)/include/codingsystem.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/thread.h $(COMMON_DIR)/include/threadable.h
+	lf2crlf ./psdos/psdos_file.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./psdos -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/psdos_findfile.obj: ./psdos/psdos_findfile.cpp $(COMMON_DIR)/include/x86reg.h $(COMMON_DIR)/include/psdos.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/directoryconverter.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/ruputerdirectory.h $(COMMON_DIR)/include/dosdirectory.h $(COMMON_DIR)/include/directory.h $(COMMON_DIR)/include/codingsystem.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/thread.h $(COMMON_DIR)/include/threadable.h $(COMMON_DIR)/include/sdfindfile.h
+	lf2crlf ./psdos/psdos_findfile.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./psdos -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/sdfindfile.obj: ./psdos/sdfindfile.cpp $(COMMON_DIR)/include/sdfindfile.h
+	lf2crlf ./psdos/sdfindfile.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./psdos -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/psdos.obj: ./psdos/psdos.cpp $(COMMON_DIR)/include/cpu.h $(COMMON_DIR)/include/mncore.h $(COMMON_DIR)/include/ruputerexception.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/state.h $(COMMON_DIR)/include/psdos.h $(COMMON_DIR)/include/x86reg.h $(COMMON_DIR)/include/thread.h $(COMMON_DIR)/include/threadable.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/ruputerdirectory.h $(COMMON_DIR)/include/dosdirectory.h $(COMMON_DIR)/include/directory.h $(COMMON_DIR)/include/codingsystem.h $(COMMON_DIR)/include/directoryconverter.h $(COMMON_DIR)/include/log.h
+	lf2crlf ./psdos/psdos.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./psdos -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/wbios.obj: ./wbios/wbios.cpp $(COMMON_DIR)/include/cpu.h $(COMMON_DIR)/include/mncore.h $(COMMON_DIR)/include/ruputerexception.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/wbios.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/timer.h $(COMMON_DIR)/include/timermgr.h $(COMMON_DIR)/include/timerresourcemgr.h $(COMMON_DIR)/include/state.h $(COMMON_DIR)/include/keybuffer.h $(COMMON_DIR)/include/thread.h $(COMMON_DIR)/include/threadable.h $(COMMON_DIR)/include/rupstruct.h $(COMMON_DIR)/include/log.h
+	lf2crlf ./wbios/wbios.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./wbios -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/wbiossound.obj: ./wbios/wbiossound.cpp $(COMMON_DIR)/include/mncore.h $(COMMON_DIR)/include/wbios.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/thread.h $(COMMON_DIR)/include/threadable.h $(COMMON_DIR)/include/sound.h $(COMMON_DIR)/include/soundsync.h $(COMMON_DIR)/include/soundsyncnull.h $(COMMON_DIR)/include/sound.h $(COMMON_DIR)/include/soundsyncnull.h $(COMMON_DIR)/include/soundasync.h $(COMMON_DIR)/include/soundsync.h $(COMMON_DIR)/include/option.h $(COMMON_DIR)/include/optionlist.h
+	lf2crlf ./wbios/wbiossound.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./wbios -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/memory.obj: ./memory/memory.cpp $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/ruputerexception.h $(COMMON_DIR)/include/throwable.h
+	lf2crlf ./memory/memory.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./memory -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/memorybase.obj: ./memory/memorybase.cpp $(COMMON_DIR)/include/memory.h
+	lf2crlf ./memory/memorybase.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./memory -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/memoryinside.obj: ./memory/memoryinside.cpp $(COMMON_DIR)/include/memory.h
+	lf2crlf ./memory/memoryinside.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./memory -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/port.obj: ./memory/port.cpp $(COMMON_DIR)/include/cmlcd.h $(COMMON_DIR)/include/port.h $(COMMON_DIR)/include/lcdport.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/address.h $(COMMON_DIR)/include/keybuffer.h
+	lf2crlf ./memory/port.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./memory -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/memorycpu.obj: ./memory/memorycpu.cpp $(COMMON_DIR)/include/memorycpu.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/port.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/internalfont.h $(COMMON_DIR)/include/rommmp.h $(COMMON_DIR)/include/option.h $(COMMON_DIR)/include/optionlist.h $(COMMON_DIR)/include/ruputerexception.h
+	lf2crlf ./memory/memorycpu.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./memory -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/internalfont.obj: ./memory/internalfont.cpp $(COMMON_DIR)/include/address.h $(COMMON_DIR)/include/sdlcd.h $(COMMON_DIR)/include/sdlcdfont.h $(COMMON_DIR)/include/internalfont.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/memory.h
+	lf2crlf ./memory/internalfont.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./memory -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/exmemory.obj: ./memory/exmemory.cpp $(COMMON_DIR)/include/exmemory.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/address.h $(COMMON_DIR)/native/native.h
+	lf2crlf ./memory/exmemory.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./memory -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/optionitem.obj: ./option/optionitem.cpp $(COMMON_DIR)/include/optionitem.h
+	lf2crlf ./option/optionitem.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./option -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/optionlist.obj: ./option/optionlist.cpp $(COMMON_DIR)/include/optionlist.h
+	lf2crlf ./option/optionlist.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./option -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/option.obj: ./option/option.cpp $(COMMON_DIR)/include/option.h $(COMMON_DIR)/include/optionlist.h $(COMMON_DIR)/include/optionlist.h $(COMMON_DIR)/include/optionitem.h $(COMMON_DIR)/include/log.h
+	lf2crlf ./option/option.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./option -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/optionbool.obj: ./option/item/optionbool.cpp $(COMMON_DIR)/include/optionitem.h
+	lf2crlf ./option/item/optionbool.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./option/item -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/optionint.obj: ./option/item/optionint.cpp $(COMMON_DIR)/include/optionitem.h
+	lf2crlf ./option/item/optionint.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./option/item -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/optionstring.obj: ./option/item/optionstring.cpp $(COMMON_DIR)/include/optionitem.h
+	lf2crlf ./option/item/optionstring.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./option/item -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/timer.obj: ./timer/timer.cpp $(COMMON_DIR)/include/timer.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/thread.h $(COMMON_DIR)/include/threadable.h $(COMMON_DIR)/include/state.h $(COMMON_DIR)/include/timerresource.h
+	lf2crlf ./timer/timer.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./timer -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/timermgr.obj: ./timer/timermgr.cpp $(COMMON_DIR)/include/timer.h $(COMMON_DIR)/include/timermgr.h $(COMMON_DIR)/include/timerresourcemgr.h $(COMMON_DIR)/include/address.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/state.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/timerresourcemgr.h $(COMMON_DIR)/include/timerresource.h
+	lf2crlf ./timer/timermgr.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./timer -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/timerresource.obj: ./timer/timerresource.cpp $(COMMON_DIR)/include/timerresource.h
+	lf2crlf ./timer/timerresource.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./timer -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/timerresourcemgr.obj: ./timer/timerresourcemgr.cpp $(COMMON_DIR)/include/timerresourcemgr.h $(COMMON_DIR)/include/timerresource.h
+	lf2crlf ./timer/timerresourcemgr.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./timer -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/rupsys.obj: ./rupsys/rupsys.cpp $(COMMON_DIR)/include/mncore.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/memorycpu.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/thread.h $(COMMON_DIR)/include/threadable.h $(COMMON_DIR)/include/address.h $(COMMON_DIR)/include/rupsys.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/keybuffer.h $(COMMON_DIR)/include/state.h $(COMMON_DIR)/include/systimer.h $(COMMON_DIR)/include/rupaddress.h $(COMMON_DIR)/include/address.h $(COMMON_DIR)/native/rupsysaddress.h $(COMMON_DIR)/include/log.h
+	lf2crlf ./rupsys/rupsys.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./rupsys -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/systimer.obj: ./rupsys/systimer.cpp $(COMMON_DIR)/include/rupaddress.h $(COMMON_DIR)/include/address.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/systimer.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/keybuffer.h
+	lf2crlf ./rupsys/systimer.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./rupsys -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/thread.obj: ./thread/thread.cpp $(COMMON_DIR)/include/address.h $(COMMON_DIR)/include/rupaddress.h $(COMMON_DIR)/include/address.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/cpu.h $(COMMON_DIR)/include/mncore.h $(COMMON_DIR)/include/ruputerexception.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/timer.h $(COMMON_DIR)/include/state.h $(COMMON_DIR)/include/interruption.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/thread.h $(COMMON_DIR)/include/threadable.h $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/keybuffer.h $(COMMON_DIR)/include/ruputerdirectory.h $(COMMON_DIR)/include/dosdirectory.h $(COMMON_DIR)/include/directory.h $(COMMON_DIR)/include/codingsystem.h $(COMMON_DIR)/include/directoryconverter.h $(COMMON_DIR)/include/psdos.h $(COMMON_DIR)/include/lcd.h $(COMMON_DIR)/include/wbios.h $(COMMON_DIR)/include/rupsys.h
+	lf2crlf ./thread/thread.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./thread -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/sound.obj: ./sound/sound.cpp $(COMMON_DIR)/include/sound.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h
+	lf2crlf ./sound/sound.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./sound -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/sdsound.obj: ./sound/sdsound.cpp $(COMMON_DIR)/include/sdsound.h
+	lf2crlf ./sound/sdsound.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./sound -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/soundsync.obj: ./sound/soundsync.cpp $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/soundsync.h $(COMMON_DIR)/include/soundsyncnull.h $(COMMON_DIR)/include/sound.h $(COMMON_DIR)/include/threadable.h $(COMMON_DIR)/include/sdsound.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/option.h $(COMMON_DIR)/include/optionlist.h
+	lf2crlf ./sound/soundsync.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./sound -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/soundsyncnull.obj: ./sound/soundsyncnull.cpp $(COMMON_DIR)/include/state.h $(COMMON_DIR)/include/soundsyncnull.h $(COMMON_DIR)/include/sound.h $(COMMON_DIR)/include/threadable.h
+	lf2crlf ./sound/soundsyncnull.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./sound -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/soundasync.obj: ./sound/soundasync.cpp $(COMMON_DIR)/include/memory.h $(COMMON_DIR)/include/soundsync.h $(COMMON_DIR)/include/soundsyncnull.h $(COMMON_DIR)/include/sound.h $(COMMON_DIR)/include/threadable.h $(COMMON_DIR)/include/soundasync.h $(COMMON_DIR)/include/soundsync.h $(COMMON_DIR)/include/sdsound.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/option.h $(COMMON_DIR)/include/optionlist.h
+	lf2crlf ./sound/soundasync.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./sound -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/directory.obj: ./directory/directory.cpp $(COMMON_DIR)/include/directory.h $(COMMON_DIR)/include/codingsystem.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/dirstack.h $(COMMON_DIR)/include/directoryelement.h $(COMMON_DIR)/include/codingbase.h $(COMMON_DIR)/include/codingascii.h $(COMMON_DIR)/include/codingbase.h $(COMMON_DIR)/include/codingshiftjis.h $(COMMON_DIR)/include/codingascii.h $(COMMON_DIR)/include/codingsystem.h
+	lf2crlf ./directory/directory.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./directory -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/directoryconverter.obj: ./directory/directoryconverter.cpp $(COMMON_DIR)/include/directoryconverter.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/directory.h $(COMMON_DIR)/include/codingsystem.h $(COMMON_DIR)/include/codingbase.h $(COMMON_DIR)/include/log.h
+	lf2crlf ./directory/directoryconverter.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./directory -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/dirstack.obj: ./directory/dirstack.cpp $(COMMON_DIR)/include/dirstack.h $(COMMON_DIR)/include/directoryelement.h $(COMMON_DIR)/include/directoryelement.h
+	lf2crlf ./directory/dirstack.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./directory -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/dirstacksjis.obj: ./directory/dirstacksjis.cpp $(COMMON_DIR)/include/cessjis.h $(COMMON_DIR)/include/dirstacksjis.h $(COMMON_DIR)/include/dirstack.h $(COMMON_DIR)/include/directoryelement.h $(COMMON_DIR)/include/directoryelement.h
+	lf2crlf ./directory/dirstacksjis.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./directory -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/directoryelement.obj: ./directory/directoryelement.cpp $(COMMON_DIR)/include/dirstack.h $(COMMON_DIR)/include/directoryelement.h $(COMMON_DIR)/include/directoryelement.h
+	lf2crlf ./directory/directoryelement.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./directory -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/dosdirectory.obj: ./directory/dosdirectory.cpp $(COMMON_DIR)/include/dirstacksjis.h $(COMMON_DIR)/include/dirstack.h $(COMMON_DIR)/include/directoryelement.h $(COMMON_DIR)/include/dosdirectory.h $(COMMON_DIR)/include/directory.h $(COMMON_DIR)/include/codingsystem.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/codingsystem.h
+	lf2crlf ./directory/dosdirectory.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./directory -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/ruputerdirectory.obj: ./directory/ruputerdirectory.cpp $(COMMON_DIR)/include/dirstacksjis.h $(COMMON_DIR)/include/dirstack.h $(COMMON_DIR)/include/directoryelement.h $(COMMON_DIR)/include/ruputerdirectory.h $(COMMON_DIR)/include/dosdirectory.h $(COMMON_DIR)/include/directory.h $(COMMON_DIR)/include/codingsystem.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/directoryconverter.h $(COMMON_DIR)/include/codingsystem.h $(COMMON_DIR)/include/ruputer.h $(COMMON_DIR)/include/exffile.h
+	lf2crlf ./directory/ruputerdirectory.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./directory -Fo$@ -c $(TEMP_FILE)
+$(COM_OUT_DIR)/unixdirectory.obj: ./directory/unixdirectory.cpp $(COMMON_DIR)/include/dirstack.h $(COMMON_DIR)/include/directoryelement.h $(COMMON_DIR)/include/unixdirectory.h $(COMMON_DIR)/include/directory.h $(COMMON_DIR)/include/codingsystem.h $(COMMON_DIR)/include/throwable.h $(COMMON_DIR)/include/codingsystem.h
+	lf2crlf ./directory/unixdirectory.cpp $(TEMP_FILE)
+	$(CXX) $(CXXFLAGS) -I./directory -Fo$@ -c $(TEMP_FILE)

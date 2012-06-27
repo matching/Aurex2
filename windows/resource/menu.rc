@@ -1,0 +1,79 @@
+/* -*-coding:shift_jis-unix-*- */
+/* $Id: menu.rc,v 1.4 2006/01/28 14:32:24 fumi Exp $ */
+
+#include <windows.h>
+#include <commctrl.h>
+
+#include "winresource.h"
+#include "language.h"
+
+LANGUAGE_JAPANESE
+
+// Menu
+MOUSE_MENU MENU DISCARDABLE
+BEGIN
+	POPUP "hoge"
+	BEGIN
+		    MENUITEM "新規ロード(&L)", IDM_NEW_LOAD
+//		    MENUITEM "追加ロード(&A)", IDM_ADD_LOAD
+
+                    MENUITEM SEPARATOR
+		    MENUITEM "リロード(TAB)",  IDM_RELOAD
+
+                    MENUITEM SEPARATOR
+		    MENUITEM "設定(&O)",         IDM_SETTING
+		    MENUITEM "常に最前面に表示", IDM_ALWAYS_TOP
+
+                    MENUITEM SEPARATOR
+
+		    MENUITEM "Help(&H)", IDM_VERSION
+		    MENUITEM "終了(&E)", IDM_END
+
+                    MENUITEM SEPARATOR
+
+		    MENUITEM "Enter", IDM_KEY_ENTER
+		    MENUITEM "EL",    IDM_KEY_EL
+		    MENUITEM "Menu",  IDM_KEY_MENU
+		    MENUITEM "Filer", IDM_KEY_FILER
+		    MENUITEM "↑", IDM_KEY_UP
+		    MENUITEM "→", IDM_KEY_RIGHT
+		    MENUITEM "↓", IDM_KEY_DOWN
+		    MENUITEM "←", IDM_KEY_LEFT
+	END
+END
+
+LANGUAGE_ENGLISH
+
+// Menu
+MOUSE_MENU MENU DISCARDABLE
+BEGIN
+	POPUP "hoge"
+	BEGIN
+		    MENUITEM "Load(&L)", IDM_NEW_LOAD
+//		    MENUITEM "Append Loading(&A)", IDM_ADD_LOAD
+
+                    MENUITEM SEPARATOR
+		    MENUITEM "Reload(TAB)",  IDM_RELOAD
+
+                    MENUITEM SEPARATOR
+		    MENUITEM "Option(&O)",         IDM_SETTING
+		    MENUITEM "Always top", IDM_ALWAYS_TOP
+
+                    MENUITEM SEPARATOR
+
+		    MENUITEM "Help(&H)", IDM_VERSION
+		    MENUITEM "End(&E)", IDM_END
+
+                    MENUITEM SEPARATOR
+
+		    MENUITEM "Enter", IDM_KEY_ENTER
+		    MENUITEM "EL",    IDM_KEY_EL
+		    MENUITEM "Menu",  IDM_KEY_MENU
+		    MENUITEM "Filer", IDM_KEY_FILER
+		    MENUITEM "Up", IDM_KEY_UP
+		    MENUITEM "Right", IDM_KEY_RIGHT
+		    MENUITEM "Down", IDM_KEY_DOWN
+		    MENUITEM "Left", IDM_KEY_LEFT
+	END
+END
+

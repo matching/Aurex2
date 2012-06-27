@@ -1,0 +1,25 @@
+# -*-makefile-*-
+
+TARGET=test.exe
+OBJS=bdf.tab.o lex.yy.o
+
+CFLAGS=-O2 -I../ -U__GNUC_MINOR__ -DTEST # -DYYDEBUG=1 -DYYERROR_VERBOSE -g
+# FLEXFLAGS=-d
+
+CC=g++
+
+$(TARGET): $(OBJS)
+	g++ -o $(TARGET) $(CFLAGS) $(OBJS)
+
+%.o: %.c
+	$(CC) -c $(CFLAGS) $<
+
+lex.yy.c: bdf.l bdf.tab.c
+	flex $(FLEXFLAGS) $<
+
+bdf.tab.c: bdf.y
+	bison -d $<
+
+clean:
+	rm $(TARGET) bdf.tab.c lex.yy.c bdf.tab.h $(OBJS)
+

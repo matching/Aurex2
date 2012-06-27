@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, AndroAurex!</string>
+    <string name="app_name">androaurex</string>
+    <string name="STR_MENU">ME\nNU</string>
+    <string name="STR_ENTER">ENT\nER</string>
+    <string name="STR_FILER">FIL\nER</string>
+    <string name="STR_EL">EL</string>
+</resources>

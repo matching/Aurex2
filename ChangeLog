@@ -1,0 +1,1619 @@
+2007-07-28  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* windows/winruputer.cpp (WINRuputer::WndProc): 起動中の Aurex に新たな実行ファイルを渡すとすぐにロードしていたのを、終了要求出してから終了するように修正。
+	(WINRuputer::WndProc): drag and drop に対応
+
+2006-04-02  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/lcd/lcdfunc.cpp (pset::callLcdFunc): logic を取得する場所（アドレス）が誤っていたのを修正
+
+2006-03-06  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/other/keybuffer.cpp: config.h を追加
+
+	* common/memory/memorybase.cpp: 同上
+
+	* common/option/option.cpp: 同上
+
+2006-02-23  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* unixlib/findfile/unixfindfile.cpp (UnixFindFile::set_file_time): 実装した
+
+	* windows/font/winlcdfontaasjis.cpp (WINLcdFontAaSjis::drawString): セグフォるので、yi < fheight の条件を付与
+
+	* common/psdos/sdfindfile.cpp (SDFindFile::setTime)
+	(SDFindFile::setDate): 追加
+
+	* common/include/sdfindfile.h (class SDFindFile): ビッグエンディアンに対応のためメソッド setDate, setTime 追加。
+
+	* windows/findfile/winfindfile.cpp (WINFindFile::set_file_time): 修正
+
+2006-02-20  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/include/sdfindfile.h: ビットフィールドがビッグエンディアンに対応していないのでエラーとするようにした。
+	gcc2 では（デフォルトでは）pragma pack に対応していないので、 __attribute__ ((packed)) に修正する。
+
+2006-02-18  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* qte/graphic/qtelcd.cpp (QTELcd::updateWindow): QDirectPainter, frameBuffer() の戻り値のポインタをクラスメンバからローカル変数に変更
+
+	* ... : state まわり刷新。RuputerState, ThreadState とか。これは、終了時は強制終了だったのをプログラムの終了処理を走らせてから終了させるように修正した。ただし3秒たっても終了しない場合は強制終了。
+
+	* common/main/ruputer.cpp (Ruputer::Ruputer): state 削除。ruputerState, mainThreadState 追加。
+	(Ruputer::deleteMainThread, Ruputer::requestDestroy): 追加
+	(Ruputer::getState): RuputerState返すように修正
+	(Ruputer::main_loop): 修正。修正の考えかたは下記。
+
+		** RuputerState
+			 RUNNING
+			 STOP
+			 ENDING_RELOAD
+			 ENDING_NEW_LOAD
+			 ENDING_DESTORY
+			ENDING... は何回か連続であった場合、（メインスレッドを削除（←これは各自で判断すべき））して RELOAD, NEW_LOAD, DESTROY を行なう。
+			** ThreadState
+			 Running
+			 ....
+			 DOS_EXIT
+			** dos_exit
+			 Ruputerのメソッドを呼び出してメインスレッドを削除させる。
+			 → メインスレッドだと自分のインスタンスが無くなるので、
+			      thread->isMainThread()
+			    を呼び出して検証する。自分がメインスレッドなら自スレッドのstateのみ修正（←これはどれでも行なう。）。
+			 スレッドループ中ではメインスレッドも検証する。
+			 （cpuループはいいですが）
+
+	* common/sound/soundsyncnull.cpp (SoundSyncNull::SoundSyncNull): state 関連で修正
+
+	* common/include/soundsyncnull.h (class SoundSyncNull): 同上
+
+	* common/wbios/wbios.cpp (BiosIntr::callBiosIntr): bi_getgtn のstateで修正。
+
+	* common/include/wbios.h (class BiosIntr): threadlist は sound で使っていたので復活（ただしそのうちに消します）。State関連で修正。
+
+	* common/psdos/psdos.cpp (DosIntr::dos_exit): コンストラクタ修正。dos_exit修正。
+
+	* common/include/psdos.h: state 関連で修正。
+
+	* common/other/key.cpp (KeyBuffer::emu_Keyin): RuputerState が 終了処理時は 0 を返すようにする。
+
+	* common/include/keybuffer.h (class KeyBuffer): RuputerState をメンバ変数に追加。コンストラクタ時にそれを追加。
+
+	* common/include/thread.h : 同様に修正。
+
+	* common/thread/thread.cpp (Thread::Thread): ThreadState をコンストラクタに取るように修正。MainThread も同様。値が与えられた場合はメンバ変数にその値を設定するように修正。またデストラクタ時には delete しないようにする。
+	(Thread::execute): ThreadState に変更により修正
+	(MainThread): Ruputer クラスのstate を修正しないようにする。
+
+	* common/include/state.h: RuputerState、ThreadState 追加。State削除。
+
+	* common/include/ruputer.h: 同上
+
+	* common/main/ruputer.cpp (Ruputer::requestNewLoad): 新規ロードのメソッドを作る。
+
+	* common/other/key.cpp (KeyBuffer::emu_Keyin): 終了時、Keyin からは 0x8001 を返すように修正する。
+
+2006-02-17  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/wbios/wbios.cpp (BiosIntr::BiosIntr): 使っていない threadlist 削除
+
+	* common/include/wbios.h: 同上
+
+	* qte/graphic/qtelcd.cpp (QTELcd::updateWindow): アクティブでないときに描画するのはやめる。
+
+	* common/include/address.h: 使わなくなったタイマのアドレス削除
+
+	* common/lcd/cmlcdpixdefault_noai.cpp (Noai::updatePixel): メソッドを使用して実ピクセル320x240変換の計算を行なうようにする。
+
+	* common/lcd/cmlcdpixdefault.cpp (CMLcdPixDefault::psetReal)
+	(CMLcdPixDefault::updatePixel, CMLcdPixDefault::pset): 同上。
+
+	* common/lcd/cmlcdpix.cpp (CMLcdPix::CMLcdPix): 写像のテーブル作成
+
+	* common/include/cmlcdpix.h (class CMLcdPix, class CMLcdPix): 実ピクセルと320x240とを写像する関数を追加（inline）
+
+2006-02-16  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/include/lcdblrvmgr.h (class LcdBlRvMgr): getPixelStatus をインライン化させる。
+
+	* common/native/rupmenu/inputtable.c (sub_runInputProc): rupmenu のデバッグコードが間違ってONになっていたので無効にする。
+
+	* common/lcd/cmlcdpixdefault.cpp (CMLcdPixDefault::updatePixel): 高速化。（残映の計算テーブルより算出するようにする）
+
+	* windows/sound/winsound.cpp (WINSound): デストラクタでwavedeviceがオープンしていなくても閉じにいくバグ修正。
+
+2006-02-14  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/directory/dirstack.cpp (DirStack::push): assert 追加
+	(DirStack::makeDirStack): 初期化するようにする。
+
+	* common/directory/dirstacksjis.cpp (DirStackSjis::makeDirStack): 初期化するようにする。
+
+
+2006-02-12  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/option/option.cpp: 拡大率のデフォルトを DEFINE で定義し、コンパイル時に与えられるようにする。
+
+2006-02-11  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* x11/font/x11fontset.cpp (X11FontSet::get): プロパティフォントの対応を行なう。
+
+	* x11/include/x11lcdfont.h: アセント関連で修正。
+
+	* x11/font/x11lcdfontsjis.cpp: 同上
+
+	* x11/font/x11lcdfont.cpp: 同上
+
+	* x11/graphic/x11lcd.cpp (X11Lcd): delete の後、 ximage->data に NULL を入れる。（セグフォするので）
+	(X11Lcd::createSDLcdFont): ベースラインをアセントの位置にするためにアセントの算出、X11LcdFont に渡せるようにする。
+
+	* x11/x11ruputer.cpp (X11Ruputer): デストラクタで x11fontset をdeleteするように修正。
+
+	* common/timer/timermgr.cpp (TimerMgr): デストラクタで closeAll を呼び出す。
+
+	* common/rupsys/rupsys.cpp (SysIntr::callSysIntr): ruptool の文字列操作系のシステムコールを実装
+
+	* common/native/ruptool/emustrcpy1.s: 同上
+
+	* common/native/ruptool/strcpy1.c: 
+
+	* common/native/ruptool/emustrcat1.s: 
+
+	* common/native/ruptool/strcat1.c: 
+
+	* common/native/ruptool/strother.c: 
+
+	* common/native/ruptool/emustrother.s:
+
+2006-02-09  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/log/log.cpp (Log::output): ログレベルが Error であるものは、最低でも標準エラー出力に出力するようにする。
+
+	* x11/x11ruputer.cpp: Ruputer コンストラクタ修正（音をコンストラクタから外す）
+
+	* qte/Makefile.zau: unixlib のために修正
+
+	* qte/Makefile: 同上
+
+	* curses/curruputer.cpp: 外出しでの修正。
+
+	* curses/main.cpp: 同上
+
+	* x11/main.cpp: 同上
+
+	* qte/main.cpp: 同上。ファイルを euc-jp-unix にする。
+
+	* unixlib/findfile/unixfindfile.cpp: curses から Unix 汎用につかえるように外に出す。
+
+	* unixlib/include/unixframe.h: 同上
+
+	* unixlib/include/unixfindfile.h: 同上
+
+	* unixlib/Makefile: 追加
+
+2006-01-28  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* windows/winruputer.cpp (WINRuputer::WndProc): HELP, END を実装
+
+	* windows/resource/property.rc: 複数起動のオプションを追加
+
+	* windows/option/winpropwindow.cpp (WINPropWindow::cbDialogLog): logfile のセレクトボタンを有効にする。
+	(WINPropWindow::cbDialogMisc): 複数起動オプションを追加。
+
+	* windows/resource/property.rc: 内蔵SRAM使用モードのボタン削除
+
+	* common/sound/soundsyncnull.cpp: 同.h 修正。コンストラクタの引数修正 SDSound -> Ruputer による修正。
+
+	* common/sound/soundsync.cpp: 同上。同.h 修正。同上。実際に使用するまで SDSound は取得しないようにする。
+
+	* common/sound/soundasync.cpp: 同上。同.h 修正。
+
+	* common/sound/sound.cpp: 同上。同.h 修正。
+
+	* common/wbios/wbiossound.cpp (BiosIntr::bi_melody): soundasync のコンストラクタの引数修正 SDSound -> Ruputer
+	(BiosIntr::bi_buzzer): 同上。SoundSyncNull はやめる（クラスとしても不要なので削除予定）。
+
+	* doc/devlog.txt (Todo): soundまわりはあとまわし。
+
+2006-01-27  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/main/ruputer.cpp (Ruputer::reload): 何もロードしていない状態で reload が呼び出されると落ちるのを解消。
+
+	* common/include/sdmemory.h : 不要なので削除
+
+	* windows/option/winpropwindowlog.cpp: 追加。プロパティページのログのサブクラス化をサポートするクラス
+
+	* windows/include/winpropwindowlog.h: 同上
+
+	* windows/resource/property.rc: PROP_PAGE_LOG を追加
+
+	* windows/option/winpropwindow.cpp (WINPropWindow::isChanged_log): 追加
+	(WINPropWindow::cbDialogLog): 追加
+
+	* windows/log/winlogoutputevent.cpp: イベントログにログを書き込むクラス追加。ただし、レジストリをいじらないとエラーの出力になる。
+	* windows/include/winlogoutputevent.h: 同上
+
+2006-01-26  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/cpu/mncore.cpp: 内蔵SRAMのサイクルの考慮をした。
+
+2006-01-25  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/memory/internalfont.cpp (InternalFont::createInternalFont): 内蔵フォントのエミュレーションで内蔵フォントのグリフがメモリリークしていたので解消する。
+
+	* common/lcd/cmlcdfuncaa.cpp (CMLcdFuncAa::drawStringSub): 無限に再帰になるバグを修正。
+
+	* bdflib/font/bdflcdfontjis.cpp (BdfLcdFontJis::drawString): カッコを外す。
+
+	* windows/main.cpp (WinMain): 単一起動のための処理追加。
+
+	* windows/winruputer.cpp (WINRuputer::WndProc): 同上。
+
+	* windows/include/winoption.h (OPT_ALWAYS_ON_TOP): スペースを削る。
+	(OPT_ONLY_A_PROCESS): 単一起動のオプション追加。
+
+2006-01-23  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/lcd/cmlcdfunc.cpp (CMLcdFunc::drawString): iso8859-1 のオプションに対応
+
+	* common/main/ruputer.cpp (Ruputer::setupLog): Log を設定するメソッド追加
+
+	* windows/option/winoption.cpp: iso8859-1、残像効果のプロパティ追加
+
+	* windows/include/winoption.h: 同上
+
+	* windows/resource/property.rc: 同上
+
+	* common/include/option.h: logとiso8859-1のオプション追加
+
+	* common/option/option.cpp: 同上
+
+2006-01-22  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/include/lcdfunc.h (class LcdFuncGv_kput2): 追加。エミュレータからのみ呼び出せる関数（system call）。文字コードの指定が可能な gv_kput です。
+	* common/lcd/lcd.cpp (LcdIntr::callLcdFunc): 上記のため修正
+
+	* common/lcd/lcdfunc.cpp (kput2::callLcdFunc): 同上
+
+	* common/native/common/emu_common.h: ****_US の対応のために、gv_kput2_init, gv_kput2 を追加。ただし実装方式はあまり綺麗でないのでそのうちにリライトする。
+	* common/native/common/emu_common.c (gv_kput2_init, gv_kput2): 同上。
+
+
+	* common/native/disp/emudispyn.s: ****_US の対応
+
+	* common/native/disp/emudispmess.s: 同上
+
+	* common/native/disp/dispyn.c: 同上
+
+	* common/native/disp/dispmess.c: 同上
+
+	* common/native/menu/menu.c: 同上
+
+	* common/native/menu/emumenu.s: 同上
+
+2006-01-21  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/native/menu/menu.c (upscroll, downscroll): emu_common.c に定義した変数を使用するように修正
+
+	* common/native/rupmenu/inputtable.c (upscroll, downscroll): 同上
+
+	* common/native/common/emu_common.c (buffer_for_gv_get): 追加
+
+	* common/native/common/emu_common.h (buffer_for_gv_get): 追加
+
+	* common/native/rupmenu/emurupmenu.s (_emu_setInputFont)
+	(_emu_setItemListVal, _emu_getItemId, _emu_getItemListVal)
+	(_emu_setItemListToggle): 追加
+
+	* common/rupsys/rupsys.cpp (SysIntr::callSysIntr): 上記追加により修正
+
+	* common/native/rupmenu/rupmenucommon.c (searchStringPointer): インデクスの変数間違い修正
+
+	* windows/font/winlcdfontaasjis.cpp (WINLcdFontAaSjis::drawString): プロパティフォントの場合幅を平均幅 * 2 * 文字長とする。
+	* windows/font/winlcdfontaa.cpp (WINLcdFontAa::drawString): 同上
+	(WINLcdFontAa::drawString): フォントの X-origin が負（前の文字のグリフとかぶる）場合の考慮。ただし日本語は無視。
+
+	* windows/font/winlcdfont.cpp (WINLcdFont::WINLcdFont): 苦肉ではあるが、プロパティフォントの幅は 3/4 にする。
+
+2006-01-16  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/native/rupmenu/rupmenucommon.h: OnHand 用。rupmenu のエミュレーションコード追加。まだあまりできていないが一応。
+
+	* common/native/rupmenu/rupmenucommon.c: 同上
+
+	* common/native/rupmenu/inputtable.c:  同上
+
+	* common/native/rupmenu/entryitem.c:  同上
+
+	* common/native/rupmenu/emurupmenu.s:  同上
+
+2006-01-15  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/native/common/emu_lcdfunc.s: blink系追加
+
+2006-01-13  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/lcd/lcdfunc.cpp (sput::callLcdFunc, put::callLcdFunc): logを出力するように修正。
+
+2006-01-10  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/native/softkey/emusoftkey.s (_emu_softkey): バグ修正。fname に渡すポインタが違うところだったが、未だ使用していなかった。
+
+	* common/native/ruptool/emustrcat1.s: 追加。
+
+	* common/native/ruptool/strcat1.c (sub_strcat1): 追加。
+
+	* common/rupsys/rupsys.cpp (SysIntr::callSysIntr): strcat1 に対応。
+
+2006-01-09  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/rupsys/rupsys.cpp (SysIntr::callSysIntr): aprMENUauto_USfont系について、とりあえず Ruputer と同様のコードを呼び出すように修正。（今後どうするかは考える）
+
+	* common/lcd/cmlcdfunc.cpp (CMLcdFunc::getPoint): getPoint() 追加。
+
+	* common/include/cmlcdfunc.h (class CMLcdFunc): getPoint() 追加。
+
+	* common/lcd/lcd.cpp (LcdIntr::callLcdFunc): gv_pset, gv_point のエミュレーションを追加（今さらですが……）
+
+	* common/lcd/lcdfunc.cpp (pset::callLcdFunc, point::callLcdFunc): 追加。
+
+	* common/main/ruputer.cpp (Ruputer::main_loop): メインスレッド以外で未定義例外等が発生したときにエミュレートの続行をキャンセルできないバグ修正。
+
+2006-01-08  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/other/keybuffer.cpp (KeyBuffer::enQueueKey): キーバッファがフルのときのメッセージ追加
+
+2006-01-07  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/other/frame.cpp (Frame::endFrame): fps の出力を変更。
+
+	* windows/include/winoption.h : オプション名に統一的な規約を適用する。
+
+	* widgetlib/include/widgetoption.h : 同上。
+
+	* common/include/option.h : 同上。
+
+2006-01-06  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* x11/main.cpp (main): コンパイルできるように色々修正。
+
+2006-01-05  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/other/frame.cpp (Frame::endFrame): 最後のログ出力を Log を用いるように修正。
+
+	* common/log/*.cpp, common/include/log*.h : 追加。ログを出力するためのクラス。
+
+2006-01-04  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/directory/dosdirectory.cpp (DosDirectory::DosDirectory): 引数が空文字の対応追加。
+	(DosDirectory::setdir): dirstack を置き換えるためのメソッド追加
+
+	* common/directory/unixdirectory.cpp (UnixDirectory::UnixDirectory): 同上
+	(UnixDirectory::setdir): 同上
+
+	* windows/resource/*.rc : 英語のリソース追加。
+
+2005-07-29  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* windows/findfile/winfindfile.cpp (findFirst): 最初の FindFirstFile でエラー時の考慮が無いのを修正。
+
+2005-07-28  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/include/ufilerini.h (class UFilerIni): ufilerini のコンストラクタでロードするのをやめる。
+
+	* common/filerini/ufilerini.cpp (load): 追加。
+
+2005-07-26  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* qte/: 最新版でコンパイルできるように追従。
+
+	* common/filerini/ufilerini.cpp: add #include <stdio.h>
+
+2005-02-25  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/main/ruputer.cpp (reload): 追加（関連付けした exf はリセット効かない？）
+
+	* windows/winruputer.cpp (WndProc): reload の実装
+
+	* common/include/option.h: オプションに残映効果の影響を設定できる After image time という項目追加。（現状ではテキストエディタでオプションを触らないと変更できません。）
+
+	* common/option/option.cpp (get_ai_value, set_ai_value, Option): 同上による修正
+
+	* common/include/cmlcdpixdefault.h (class CMLcdPixDefault): 同上
+
+	* common/lcd/cmlcdpixdefault.cpp (updatePixel, CMLcdPixDefault): 同上
+
+	* common/lcd/cmlcdfuncdefault.cpp (CMLcdFuncDefault): 同上
+
+	* common/include/cmlcdfuncdefault.h (class CMLcdFuncDefault): 同上
+
+	* x11/graphic/x11lcd.cpp (updateWindow): X 版も gv_place でも残映するように修正。
+
+2005-02-23  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* windows/main.cpp (WinMain): セーブするオプション名をロードするものと同じにする。
+
+	* windows/winruputer.cpp (WndProc): 終了時に画面ポジションをoptionに書き込むように修正
+
+	* common/include/lcdfunc.h (class LcdFuncMoji): protected → public
+
+	* ...: [fgpixel_is_partial] （gv_place でも残映する）ブランチから幹へのマージ
+
+	* common/lcd/cmlcdpixdefault_noai.cpp (updatePixel): [fgpixel_is_partial] 02-20 と同様に修正。
+
+2005-02-22  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/lcd/lcdfunc.cpp (callLcdFunc): LcdFuncGv_kput が多重継承（ LcdFuncMoji と LcdFunc ）していたので、LcdFuncMoji を移譲にする。
+
+2005-02-20  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/lcd/cmlcdpixdefault.cpp (updatePixel): [fgpixel_is_partial] フォアグラウンドを cmlcd で管理するように
+
+2005-01-24  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* x11/include/x11exception.h (class X11Exception): X11Exception が Throwable を継承していなかったので、継承するようにする。
+
+	* bdflib/include/bdffontsetsjis.h: コメントの文字コードが JIS だったので EUC-JP にする。
+
+2005-01-13  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/memory/exmemory.cpp: -Inative にしたため、include に相対パスを書くのをやめる。
+
+	* common/rupsys/rupsys.cpp: 同上
+
+	* common/lcd/sdlcd.cpp: 同.h に書かれていたコードを、こちらのファイルに移動する。
+
+	* common/coding/codingascii.cpp (CodingAscii): 親コンストラクタの呼び出し修正
+
+	* common/coding/codingbase.cpp (CodingBase): コンストラクタの引数を無しにする。継承したクラスで設定する。
+
+2005-01-09  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/psdos/psdos_findfile.cpp (dos_find_first): createSDFindFile が NULL 返してくることを考慮していないのを対処する。
+
+	* x11/: X11 でコンパイルを通るように。動くようにする。
+
+	* common/psdos/psdos.cpp (dos_mkdir): unix の場合は mkdir 第二引数が必要なので #ifdef で分ける。
+
+	* common/filerini/filerinibase.cpp (normalizeExt): 致命的なバグ修正。正規化した拡張子の最後に \0 が入っていないバグ修正。
+
+2005-01-08  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/main/ruputer.cpp (load): フルパスから file, dir に分けるクラスを、 localDirectory → ruputerDirectory に修正
+
+	* common/include/ruputer.h (class Ruputer): keybuf を private から protected に。
+
+	* common/rupsys/rupsys.cpp (callSysIntr): dispWaiting, endWaiting の対応
+
+	* common/native/disp/dispwait.c: dispWAIT (通常アプリから言うと、dispWaiting),endWAIT のエミュレーション対応。OS 用のタイマを使用して実現させる。また、rupsys.cpp から同コードを呼び出すためのアセンブリのコード追加
+
+	* common/native/common/emu_font.h: ドルフィン用の定義追加
+
+	* common/native/common/emu_wbios.h: 下記のための c
+
+	* common/native/common/emu_wbios.s: OS の timer ルーチンを登録できる、コード追加。C から呼び出す用。そのために、同ヘッダファイル追加
+
+	* common/mmp/util/aurexmmp.txt: ドルフィン追加（やっつけです）
+
+	* common/timer/timermgr.cpp (TimerMgr): TimerResourceMgr を static に保持するようにする。これは、ユーザ用のタイマと OS 使用のタイマを分けるが、それをインスタンスふたつ作ることで実現させるため。1Hz, 4Hz, 64Hz のタイマの本数をコンストラクタ時に渡せるように修正。
+
+	* common/timer/timerresourcemgr.cpp: 下記クラスを 16 個保持するクラス追加。同ヘッダファイル追加。
+
+	* common/timer/timerresource.cpp: timer のリソースを保持するクラス追加。具体的には、timer のアドレス、stack pointer, kernel stackpointer を保持する。また、同ヘッダファイル追加。
+
+2005-01-06  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* windows/include/winoption.h (OPT_TRANSPARENT): `n' が抜けていたのを修正
+
+	* common/lcd/cmlcdpix.cpp (setPreviousPix): 縮小作成。ループ内で不変変数の払出しを行なう。
+
+	* common/lcd/cmlcdpixdefault.cpp (pset): color * 255 をやめて、color ? 255 : 0 にする。
+
+2005-01-04  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/lcd/cmlcdpix.cpp (setPreviousPix): 拡大時ピクセル情報を引き継げるようにする。ただし縮小時はまだ。
+
+2005-01-03  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/other/frame.cpp (isFrameUpdateSkip): 画面更新をするか否かを判断するところで、1フレームのmsecを15と固定で書いていたのを修正
+
+	* common/filerini/extlist.cpp: 関連づけされている拡張子を管理するクラス追加。同.h
+
+2005-01-02  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* windows/winruputer.cpp (setIcon, makeIcon): アイコンを設定するメソッド追加
+
+	* common/other/exffile.cpp (getMiniIcon, getLargeIcon)
+	(getMMPData): exffile のアイコンを取得するメソッド追加
+
+	* common/main/ruputer.cpp (Ruputer): 現在開いているファイルの exffile を Ruputer のパラメータに持たせる。
+
+	* common/other/exffile.cpp (getUnsignedLong): fseek を追加。運良くバグにはなっていない。
+
+	* パスに『表示』等の \ が入っている文字列だとうまく動かないコード全て刷新（以下）
+
+	* common/directory/dosdirectory.cpp (DosDirectory): DirStackSjis を使うようにする
+
+	* common/directory/ruputerdirectory.cpp (RuputerDirectory): 同上
+
+	* common/directory/directory.cpp (splitDirFile): 修正
+
+	* common/directory/directoryconverter.cpp (replacePathDelimiter): 修正
+
+	* common/directory/dirstacksjis.cpp: 追加
+
+	* common/include/codingsystem.h (enum CodingSystem): 追加
+
+	* common/coding/codingshiftjis.cpp: 追加。同.h も追加
+
+	* common/coding/codingbase.cpp: 追加。同.h も追加
+
+	* common/coding/codingascii.cpp: 追加。同.h も追加
+
+2005-01-01  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/native/disp/disprtc.c (sub_dispRtcDate): 文字列の初期化せずに strlen していたバグ修正
+
+2004-12-27  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/main/ruputer.cpp (getExecutableFile): 戻り値に void から int  1/0 を追加し、それぞれ exf ファイルかどうかという意味を持たせる。（メソッド追加する方がいいかも）
+
+2004-12-26  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/directory/dosdirectory.cpp (splitDirFile): 追加。dir がドライブのみ返ってきても、\ を付けるようにする。
+
+	* common/other/frame.cpp (getFrameRateTimes1000): 追加。
+	(getGraphicFrameRateTimes1000): 名前変更
+
+	* common/lcd/cmlcdfunc.cpp (setPoint): 反転上書きの処理がおかしかった（ただそのピクセルを反転していた）のを修正
+	(setPoint): 反転 OR の処理も反転するのが、文字ではかうプレーンの側だったのを修正
+	(setPoint): そのロジックが間違っていて、呼び出されなかったので修正
+
+	* common/lcd/cmlcdfuncaa.cpp (setPointReal): [branch_aa] 同上
+
+2004-12-25  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/lcd/blink.cpp (proceed): on/off の周期が逆だったのを修正
+
+2004-12-24  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/lcd/cmlcdfuncaa.cpp (drawString): [branch_aa] delete し忘れている所があった。
+
+2004-12-23  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/option/option.cpp (set_anti_alias, set_after_image)
+	(set_expansion): 追加
+
+	* widgetlib/include/widgetoption.h: [branch_aa] trunk からマージ
+
+	* widgetlib/option/widgetoption.cpp: [branch_aa] trunk からマージ
+
+	* common/include/option.h: [branch_aa] trunk からマージ
+
+	* common/option/option.cpp: [branch_aa] trunk からマージ
+
+	* windows/option/winoption.cpp: [branch_aa] trunk からマージ
+
+	* windows/include/winoption.h: [branch_aa] trunk からマージ
+
+2004-12-18  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* windows/option/winoption.cpp (get_status_bar): 追加
+	(WINOption): status_bar 追加
+
+	* windows/include/winoption.h (class WINOption): status_bar 追加
+
+	* windows/winruputer.cpp (initWindows): ステータスバー追加。FPS を表示するように。
+	(createWindow): ステータスバーの createWindow 追加
+
+	* common/other/frame.cpp (getFrameRateTimes1000): 追加
+
+2004-12-16  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/lcd/cmlcdfuncaa.cpp (drawString): [branch_aa] sdlcd が aa フォントを持っていない場合、通常のフォントで書くようにする。
+
+	* common/include/cmlcdfuncaa.h (class CMLcdFuncAa): [branch_aa] CMLcdFuncDefault からの継承にする。
+
+	* common/include/cmlcdfuncdefault.h (class CMLcdFuncDefault): [branch_aa] 上記修正により、virtual メソッドに。
+
+	* common/lcd/cmlcdfuncaa.cpp (drawEllipse): [branch_aa] 拡大に対応
+
+	* windows/graphic/winlcd102x64.cpp (updateWindow): [branch_aa] byte_per_line を使用するように修正
+
+	* windows/graphic/winlcd.cpp (updateWindow): [branch_aa] 動くようにする。
+	(init): byte_per_line 追加。
+
+	* windows/graphic/winlcdflip.cpp (updateWindow): [branch_aa] 動くようにする
+
+	* common/psdos/psdos.cpp (dos_rmdir, dos_mkdir): 動くようにする。
+
+	* windows/font/winlcdfontaa.cpp (drawString): [branch_aa] グリフの描画位置位置修正する。
+
+	* common/directory/directoryconverter.cpp (convert): 未使用変数削除
+
+	* common/other/key.cpp (emu_Keyin): eventregister を見ていなかった。もし、同registerに値があれば、その値を返すようにする。
+
+2004-12-15  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/lcd/cmlcdpixdefault.cpp (pgetReal, psetReal): [branch_aa] 範囲内チェックを行なう。
+
+	* common/lcd/cmlcdfuncaa.cpp (drawLine): [branch_aa] アンチエイリアス が style に対応していなかったのを修正
+
+	* windows/font/winlcdfontaa.cpp (drawString): [branch_aa] バッファの確保法を各文字に合わせるように修正。
+
+	* common/option/option.cpp (get_expansion, get_anti_alias): [branch_aa] 追加。
+	(Option): アンチエイリアス、倍率追加。
+
+	* common/lcd/cmlcd.cpp (setExpansion): [branch_aa] 追加。倍率設定メソッド
+
+2004-12-14  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/lcd/cmlcdpixaa.cpp (updatePixel): [branch_aa] 全画面更新時をキチンと行なえるように修正
+
+	* common/lcd/cmlcdpixaa_noai.cpp (updatePixel): 同上
+
+	* common/lcd/cmlcdpixdefault.cpp (updatePixel): 同上
+
+	* common/lcd/cmlcdpixdefault_noai.cpp (updatePixel): 同上
+
+	* common/lcd/cmlcdfuncaa.cpp (drawLine): [branch_aa] アンチエイリアス線に対応
+
+2004-12-13  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/lcd/cmlcdfuncdefault.cpp, 同.h : [branch_aa] 追加
+
+	* common/lcd/cmlcdfuncaa.cpp, 同.h : [branch_aa] 追加
+
+	* common/lcd/cmlcdfunc.cpp, 同.h : [branch_aa] 追加
+
+	* common/lcd/cmlcd.cpp: [branch_aa] 描画関数を下請けにする。
+
+2004-12-10  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* windows/font/winlcdfontsjis.cpp: [branch_aa] sjis に修正（これ良く動いていたね）
+
+	* common/lcd/cmlcdpixaa_noai.cpp: [branch_aa] 残像処理を行なわないクラス。追加。
+
+	* common/include/cmlcdpixaa_noai.h: [branch_aa] 追加
+
+	* common/include/cmlcdpixaa.h (class CMLcdPixAA): [branch_aa] 上記クラスのためフィールドのアクセス制限を private -> protected に修正。また、updatePixel を virtual にする。
+
+	* common/lcd/cmlcdpixdefault_noai.cpp : [branch_aa] 同様に追加
+
+	* common/include/cmlcdpixdefault_noai.h : [branch_aa] 同様に追加
+
+	* common/include/cmlcdpixdefault.h (class CMLcdPixDefault): [branch_aa] 同様に修正
+
+	* common/include/lcdblrvmgr.h (class LcdBlRvMgr): [branch_aa] 修正
+
+	* common/lcd/lcdblrvmgr.cpp (getPixelStatus): [branch_aa]
+	(updatePixelStatus): [branch_aa] 追加
+	(proceed): [branch_aa] 修正。stop しているものは ON にする。
+
+	* common/include/cmlcdpix.h (class CMLcdPix): [branch_aa] 修正。
+
+	* common/lcd/reverse.cpp (proceed): [branch_aa] 何もしないがメソッド修正
+	(Reverse): コンストラクタで状態を『反転』にしておく。
+
+	* common/lcd/blink.cpp (proceed): [branch_aa] on 動作も必要になるため追加。
+
+	* common/lcd/lcdblrv.cpp (pixel_on, off, invert):  [branch_aa] ブリンク・反転対応。cmlcd を直接さわるのをやめ、状態の更新を行なうように修正。
+	(getPixelSatatePointer): 状態を返すメソッド追加
+	(getX, getWidth, getHeight, getY): 追加。
+
+	* common/include/lcdblrv.h (class LcdBlRv): [branch_aa] ブリンク・反転対応。cmlcd を直接さわるのをやめる。
+	(enum BlinkReversePixelValue): 追加。pixel の状態。
+
+	* common/lcd/cmlcdpixaa.cpp (updatePixel): [branch_aa] ピクセル転送時にブリンク・反転を意識するように修正
+
+2004-11-29  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/lcd/aapixel.cpp: [branch_aa] 奇数版作成。拡大なしの時の対応
+
+	* widgetlib/include/widgetoption.h (class WidgetOption): 修正
+
+	* widgetlib/option/widgetoption.cpp (set_flip, set_full_window): 追加
+
+	* common/option/option.cpp (set_root_directory, set_timer_speed)
+	(set_cpu_speed, set_enable_cpu_timer, set_enable_sound)
+	(set_warn_odd_access): 追加
+
+2004-11-28  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* windows/graphic/winlcd.cpp (createColor): [branch_aa]ピクセルの色は1が立っているbit数ではなく、unsigned char の値が大きさに修正（ただし、値が大きい方が黒いという、ウィンドウシステムにおいては逆になっていることに注意）
+
+	* windows/graphic/winlcdflip.cpp (updateWindow): [branch_aa] とりあえずエラーにならないように修正。common 側が安定するまではとりあえずこのまま。
+
+	* windows/graphic/winlcd.cpp (updateWindow): 同上
+
+	* common/lcd/lcdport.cpp (writeLcdDataPort): [branch_aa] ピクセルの管理が cmlcd の関連クラスになったのでその修正。
+	(readLcdDataPort): 同上
+
+	* アンチエイリアス・ブランチ作成（branch_aa）このブランチへの変更に関しては[branch_aa] を付ける。ただし、本家（メイントランク）にマージするまで。
+
+	* common/lcd/aapixel.cpp, 同.h: [branch_aa] 追加。1ピクセルのアンチエイリアスを管理するクラス
+
+	* common/lcd/cmlcdpixaa.cpp, 同.h: [branch_aa] 追加。アンチエイリアスありの画面全体のピクセルの管理するクラス。以前は cmlcd で管理していたが、クラスに追いやる。
+
+	* common/lcd/cmlcdpixdefault.cpp, 同.h: [branch_aa] 追加。アンチエイリアスしない画面全体のピクセルを管理するクラス。
+
+	* common/lcd/cmlcd.cpp, 同.h: [branch_aa] 修正。画面全体に関して残映処理を行なっていたが、選択できるようにする。基本的には、102x64 のリージョン。
+	blink, reverse は現在アンチエイリアスに対応していない。
+
+	* common/include/option.h (class Option): 修正
+
+	* windows/include/winoption.h (class WINOption): 修正
+
+	* windows/option/winoption.cpp (set_window_y_pos)
+	(set_window_x_pos, set_transparent, set_alpha_value, set_alpha)
+	(set_no_caption): 追加
+
+2004-11-20  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/psdos/psdos_file.cpp (dos_create): ディレクトリ変換例外の try-catch 追加
+	(dos_crnew, dos_open): 同上
+
+2004-11-14  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/cpu/print-test/* : 追加。binutils の objdump を用いたニモニック表示の確認モジュール一式。
+
+	* common/psdos/psdos.cpp (dos_getcdir): "b:\foo\bar" と返していたが、どうやら "\foo\bar" と
+	ドライブ名を除いて返す必要があるらしい（？）ので、そのようにする。
+
+	* common/option/option.cpp (syncToOptionList): バグ修正
+
+	* common/other/frame.cpp (checkTime): 正確な（実行時だけの） end - start を計るように修正。
+	(endFrame): それを用いて、FPS 出力するように修正
+
+	* common/other/exffile.cpp (loadToMemory): *pc, *psp を引数（out）として渡すのはやめ、メソッドにゲッターを作成する。
+
+	* common/main/ruputer.cpp (init): システム使用のメモリのクリアを追加
+
+2004-11-13  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/other/keybuffer.cpp (flush): 追加。
+
+	* common/main/ruputer.cpp (init): keybuffer のクリア、状態の初期化も追加
+
+	* common/other/keybuffer.cpp (flush): 追加
+
+	* common/directory/directoryelement.cpp (DirectoryElement): メモリリーク修正(C++ の使用法ってレベルです）
+
+	* windows/font/winlcdfont.cpp (WINLcdFont): 同上
+
+	* common/option/item/optionstring.cpp (OptionString)
+	(setStringValue): 同上
+
+	* x11/graphic/x11lcd.cpp (X11Lcd): 同上
+
+	* windows/font/winlcdfontsjis.cpp (WINLcdFontSjis): 同上
+
+	* common/option/optionitem.cpp (OptionItem): 同上
+
+	* common/lcd/lcdfunc.cpp (callLcdFunc): メモリ境界越えたら修正。
+
+	* common/sound/soundasync.cpp (SoundAsync): 引数が sdount という typo 修正（良く動いていたね……）
+
+2004-11-12  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/main/ruputer.cpp (printErrorMessageForUndefinedInstruction)
+	(printErrorMessageForOddAccess): 追加
+	(main_loop): 各 Exception を振り分ける。
+
+2004-11-10  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/cpu/mncore.cpp : Todo 実効アドレスを出し、pc の値も確定させてから read** write** を実行するように修正。
+
+	* common/cpu/mncore.cpp (toString): 追加
+
+	* common/cpu/cpu.cpp (convRegsToString): 上記を呼び出すだけに修正
+
+	* common/include/cpu.h (class Cpu): emulate → emulate_core に修正。emulate は例外を捕まえられるようにする。
+
+	* common/main/ruputerexception.cpp: 追加
+
+2004-11-07  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/cpu/mncore.cpp (mn10200_cpu_timer): CPU Timer を使えるようにする。オプションの項目でいうところの、CpuTimer。
+
+	* common/main/ruputer.cpp (main_loop): オプションの CpuSpeed を見るようにする。
+
+	* common/other/frame.cpp (updateFrameTime): メソッド追加。オプション TimerSpeed を見るようにする。
+	(startFrame): オプションを反映させる。
+
+	* common/memory/memorycpu.cpp (warnOddAddress): オプションを見るように修正
+
+	* common/include/ruputerexception.h: 追加
+
+	* common/filerini/filerinimgr.cpp (loadUFilerIni): ディレクトリ相対をしっかりと行なうように修正。
+
+	* common/directory/directory.cpp (Directory): デストラクタ作成。リーク修正
+
+	* common/filerini/filerinimgr.cpp (getExecutableFileNameByExt): public -> private にする
+
+	* common/include/exffile.h: 追加。exffile を扱うクラス
+
+	* common/other/exffile.cpp: 同上
+
+	* common/main/ruputer.cpp (load): ディレクトリ関係でのエラーは例外にしたので、それを修正。MainThread で設定していた RuputerDirectory の設定も同メソッドで行なうようにする。
+
+	* common/thread/thread.cpp (MainThread): 同上の修正
+
+	* common/directory/directoryconverter.cpp (DirectoryConverter): コンストラクタの引数の情報が設定されていない場合（主に仮想ディレクトリ）、例外を投げるようにする。
+	(convert): 変換エラーになった場合例外を投げるようにする。
+
+	* common/directory/dosdirectory.cpp (getRestPath): エラー時は例外を throw するようにする
+
+	* common/directory/unixdirectory.cpp (getRestPath): 同上
+
+	* common/include/directoryconverter.h (class DirectoryConverterException): 追加
+	(class DirectoryConverter): 修正
+
+	* common/include/directory.h (class DirectoryException): 追加
+
+	* common/include/dosdirectory.h (class DosDirectory): getRestPath で DirectoryException を throw するような修正
+
+	* common/include/unixdirectory.h (class UnixDirectory): 同上
+
+	* common/include/ruputerdirectory.h (class RuputerDirectory): 同上
+
+	* common/include/throwable.h (class Throwable): 追加
+
+2004-11-05  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* bdflib/bdf/bdffontsetsjis.cpp (getFontData): 初期化忘れ修正
+
+	* common/directory/ruputerdirectory.cpp (RuputerDirectory): ruputer->getLocalDirectory() しか行なわないため、コンストラクタの引数を Ruputer -> Directory に変更。
+
+	* common/main/ruputer.cpp (Ruputer): 上記修正による修正
+
+	* common/include/ruputerdirectory.h (class RuputerDirectory): 同上
+
+2004-11-03  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/mmp/romgaiji.cpp (getGaijiData, isGaiji): 未使用変数削除。コンパイラの警告対処。
+
+	* common/lcd/lcdfunc.cpp (callLcdFunc): gv_circle のエミュレーションの最後に return 0 を追加。コンパイラの警告対処。
+
+	* windows/winruputer.cpp (WINRuputer): HINSTANCE, int nCmdShow 追加
+	(getWindowStyle): 追加
+	(getWindowStyleHasEx): 追加
+
+2004-11-02  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* windows/main.cpp (WinMain): WINOption *追加
+
+	* common/option/option.cpp: グローバル変数 option を追加。各クラスでオプションを参照したいときはこれを使う（悪い仕様？）
+
+	* common/main/ruputer.cpp (Ruputer): コンストラクタに Option *追加
+
+	* windows/winruputer.cpp (WINRuputer): 同上（ただし、WINOption）
+
+	* windows/include/winoption.h (WidgetOption): 追加
+
+	* common/option/optionmgr.cpp : 削除
+
+	* common/include/optionmgr.h : 同上
+
+2004-11-01  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/option/optionlist.cpp : 追加
+
+	* common/include/optionlist.h (class OptionList): 追加
+
+2004-10-31  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* グローバル変数としての ::ruputer 等の排除とアクセサの整備、オプションの刷新の前段階（以下）
+
+	* common/include/timermgr.h (class TimerMgr): 追加。元は timer.h にあったのを分離
+
+	* common/include/ruputerdirectory.h: コンストラクタの実体が書かれていたので、同.cpp に移動。またコンストラクタに Ruputer を追加
+
+	* common/include/ruputer.h (class Ruputer): ほとんどの変数を private にする。getter 追加
+
+	* common/rupsys/rupsys.cpp (SysIntr): 修正
+	(callSysIntr): メソッドのシグネチャ修正
+	(callNativeCode): メソッドのシグネチャ修正
+
+	* common/include/rupsys.h (class SysIntr): コンストラクタ修正
+
+	* common/include/rupaddress.h: グローバル変数削除
+
+	* common/psdos/psdos_findfile.cpp (dos_find_first): 修正
+
+	* common/psdos/psdos_file.cpp (dos_create, dos_crnew, dos_open): 修正
+
+	* common/psdos/psdos.cpp (DosIntr, dos_setdta, dos_getdta)
+	(dos_get_psp, dos_exit): 修正
+
+	* common/include/psdos.h (class DosIntr): Ruputer クラス等をメンバ変数に追加。dos_exit に Register * を追加
+
+	* common/include/port.h: コンストラクタに MemoryForCpu クラスがあったが必要ないので削除
+
+	* common/memory/port.cpp (Port): 修正
+
+	* common/include/memorycpu.h (class MemoryForCpu): コンストラクタに Port *, InternalFont *, RomMmp * を取るように修正。Ruputer クラスより作成される
+
+	* common/memory/memorycpu.cpp (MemoryForCpu): 修正
+	(MemoryForCpu): 修正
+
+	* common/include/lcdport.h (class LcdPort): コンストラクタに共通 LCD クラス(CMLcd)を渡すように修正。singleton だったクラスを『事実上singleton』にし、singlton のコードを排除
+
+	* common/lcd/lcdport.cpp (LcdPort): 同上
+
+	* common/include/lcdfunc.h (class LcdFuncGv_place): コンストラクタ修正
+
+	* common/lcd/lcd.cpp (LcdIntr, callLcdFunc): 上記による修正。gv_place だけは アドレス操作クラス(RupAddress)が必要なのでコンストラクタに追加
+
+	* common/include/lcd.h (class LcdIntr): コンストラクタに Ruputer * 追加。システムコール呼び出しメソッドに Register * 追加。
+
+	* common/include/keybuffer.h (class KeyBuffer): メンバ変数にRuputerのアドレス操作クラス(RupAddress)を追加。コンストラクタ修正。
+	* common/other/keybuffer.cpp (KeyBuffer): 修正
+
+	* common/include/interruption.h (class Interruption): Interruption クラスは各システムコールを統合するクラスに修正
+
+	* common/other/interruption.cpp (Interruption): 上記による修正
+	(execSystemCall): 各割り込みクラスに Register *を与えるように修正したため、修正。
+
+	* common/include/internalfont.h (class InternalFont): Ruputer クラスのメンバ変数追加。コンストラクタのシグネチャ修正
+
+	* common/memory/internalfont.cpp (InternalFont)
+	(createInternalFont): 修正
+
+	* common/include/cmlcd.h (class CMLcd): Ruputer クラスのメンバ変数追加。コンストラクタのシグネチャ修正
+
+	* common/lcd/cmlcd.cpp (CMLcd, drawString): 上記による修正
+
+	* common/cpu/cpu.cpp (Cpu): シグネチャ修正。MemoryForCpu クラスをここで作成していたが、Ruputer クラスに移行。
+
+	* common/include/cpu.h (class Cpu): 同上
+
+	* 以下面倒になって修正のみ追加
+
+	* common/include/wbios.h (class BiosIntr): 修正。同.cpp も修正
+
+	* common/include/timer.h (class Timer): 修正。同.cpp も修正
+
+	* common/include/threadable.h (class Threadable): getState 追加。同.cpp も修正
+
+	* common/include/thread.h (class Thread): 修正。同.cpp も修正
+
+	* common/include/systimer.h (class SysTimer): コンストラクタに RupAddress, KeyBuffer 追加
+
+	* common/include/sound.h (class Sound): コンストラクタに SDSound クラス追加。同.cpp も修正
+
+	* common/include/soundsyncnull.h (class SoundSyncNull): 同上
+
+	* common/include/soundsync.h (class SoundSync): 同上
+
+	* common/include/soundasync.h (class SoundAsync): 同上
+
+
+2004-09-28  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/native/common/emu_font.h (mmpGARA): 追加
+
+	* common/native/menu/menu.c (show_title): 網模様を出力するように修正。
+
+	* common/mmp/util/aurexmmp.txt: メニュータイトルの後の網模様
+	mmpGARA 追加。（このアドレスでいいのでしょうか）
+
+	* curses/include/curfindfile.h: ファイル追加。Unix 一般の dos_fnd_first, next のエミュレーション。
+	* curses/findfile/curfindfile.cpp: 同上
+
+	* windows/include/winfindfile.h: ファイル追加。Windows 用の
+	fnd_first,next のエミュレーションコード
+
+	* windows/findfile/winfindfile.cpp: ファイル追加。同上
+
+	* windows/winruputer.cpp (createSDFindFile): 追加
+	* curses/curruputer.cpp (createSDFindFile): 同様に追加
+
+	* common/psdos/sdfindfile.cpp: ファイル追加。dos_fnd_first, dos_fnd_next のエミュレーションのため。
+	* windows/include/winruputer.h: 同様に修正
+	* curses/include/curruputer.h: 同様に修正
+
+	* common/include/sdfindfile.h: ファイル追加。同上
+
+	* common/psdos/psdos_findfile.cpp: ファイル追加。同上
+
+	* common/psdos/psdos.cpp (callDosIntr): find_first, find_next のコメントを外す。
+
+	* common/include/ruputer.h (class Ruputer): 同上のための修正。Factory クラスになるように。
+
+
+	* common/include/thread.h (class Thread): psp を保持する Class を
+	Thread -> Ruputer に変更。現状シグネチャは維持するが、thread に psp を渡しても未使用
+
+	* common/psdos/psdos.cpp (dos_get_psp): 同上 thread -> ruputer
+
+	* common/main/ruputer.cpp (load): psp_address を Ruputer Class の方に格納するようにする。
+
+	* common/include/ruputer.h (class Ruputer): 同上。psp_address 追加
+
+	* common/thread/thread.cpp (Thread, fork): 同上。メンバ変数にアクセスしているところ削除
+
+2004-09-27  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/native/disp/dispmess.c (sub_dispMESS): 文字が表示されて枠
+	が消えるため、x のオフセットを 0 → 2 に変更。
+
+	* common/native/disp/dispyn.c (sub_dispYNb): 同上
+
+
+2004-07-04  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* windows/winruputer.cpp (WndProc): メニューのキー入力を有効にする。
+
+2004-05-26  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/lcd/lcdfunc.cpp (callLcdFunc): 今まで「ここ」で drawLine 
+	をよっつ呼び出していたが、drawRect を呼び出すように修正。fillRect 対応。
+
+	* common/include/lcdfunc.h (class LcdFuncRect): getStyle32() 追加
+
+	* common/lcd/cmlcd.cpp (drawRect, fillRect): 実装する。
+	(drawLine): style が 32bit のものと 8 bit のものふたつ用意する。
+
+	* common/include/cmlcd.h (class CMLcd): fillRect, drawRect, drawLine のシグネチャ変更
+
+2004-05-19  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/native/Makefile (rupsys.elf): .bss セクションが（ゼロしかないが）native.hに反映されていなかったのを修正。
+
+2004-05-16  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+
+	* common/lcd/lcd.cpp (callLcdFunc): gv_circle のエミュレーション追加。
+
+	* common/lcd/lcdfunc.cpp (callLcdFunc): 追加。円弧・扇はまだ描けない。
+
+	* common/lcd/cmlcd.cpp (drawEllipse): メソッド追加。楕円（正円含む）を書く。塗り潰しは不可。
+
+	* common/include/cmlcd.h (class CMLcd): 上記修正。
+
+2004-05-10  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/memory/memorybase.cpp (readMemory8): 定義 MEMORY_DEBUG 追
+	加。定義されていると実効アドレスを表示する。
+
+	* common/cpu/mnexpr.cpp (bclr): 論理反転を行なわずに論理積を行なっていたバグを修正。
+
+2004-05-07  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/lcd/lcdport.cpp (getLcdPort): Singleton にする。これはス
+	レッド毎に LcdPort がインスタンス化されており、それによってページ
+	アドレス、コラムアドレスが初期化されていたため。（表面化しなかった
+	ように思えるが）
+
+	* common/memory/port.cpp (Port): 上記修正による修正
+
+2004-05-05  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* bdflib/parser/Makefile (FLEXFLAGS): -F 追加
+
+	* bdflib/parser/bdf.y: bdffont の演繹（？）ルールの最後から NL を削除。下記変更の対応
+
+	* bdflib/parser/bdf.l: 重複気味の字句をひとつにまとめ、構文解析の
+	方で識別するように変更（高速化？）
+
+	* windows/winruputer.cpp (createWindow): option が設定されていない
+	初回起動時にウィンドウが未初期化変数の位置に出るバグ修正
+
+	* x11/font/x11lcdfontsjis.cpp (drawString): ポインタの配列を確保す
+	るとき new (char *)[size] としていたのを char * [size] とする。
+
+	* x11/font/x11lcdfont.cpp (X11LcdFont): 同上
+
+	* windows/font/winlcdfont.cpp (drawString): 同上
+
+	* windows/font/winlcdfontsjis.cpp (drawString): 同上
+
+	* bdflib/font/bdflcdfontjis.cpp (drawString): 同上
+
+
+2004-05-04  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* bdflib/parser/bdf.y: 10進数で書かれていたものを16進数として数値化していたバグ修正
+
+	* bdflib/font/bdflcdfontjis.cpp (drawString): x 座標の初期化忘れを修正
+
+	* curses/Makefile (clean): libbdf を考慮するように修正
+
+	* curses/main.cpp (main): optionのロード、fileriniのロード追加
+
+	* curses/curruputer.cpp (CURRuputer): option のロードをmain.cpp に持ってくので削除
+
+	* bdflib/parser/parse.h: 追加。以下 bdf 関係。
+
+	* bdflib/parser/bdf.y: 
+
+	* bdflib/parser/bdf.l: 
+
+	* bdflib/parser/parse.c: 
+
+	* bdflib/include/bdfmgr.h: 
+
+	* bdflib/include/bdflcdfontjis.h : 
+
+	* bdflib/include/bdflcdfont.h : 
+
+	* bdflib/include/bdffontsetsjis.h: 
+
+	* bdflib/include/bdffontsets.h: 
+
+	* bdflib/include/bdffontset.h: 
+
+	* bdflib/include/bdffont.h: 
+
+	* bdflib/font/bdflcdfontjis.cpp: 
+
+	* bdflib/font/bdflcdfont.cpp : 
+
+	* bdflib/bdf/bdfmgr.cpp : 
+
+	* bdflib/bdf/bdffontsetsjis.cpp :
+
+	* bdflib/bdf/bdffontsets.cpp: 
+
+	* bdflib/bdf/bdffontset.cpp: 
+
+	* curses/graphic/curlcd.cpp (createSDLcdFont): bdf をラスタライズするようにする。
+
+2004-05-02  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/native/disp/emudispyn.s: .global に書いていたものが間違っていたせいで、rupsysaddress.h
+	に変な出力が出ていたのを修正。
+
+2004-05-01  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* common/main/ruputer.cpp (main_loop): 定義 NO_SKIP 追加。定義されるとフレームスキップしない
+
+	* common/cpu/mnprint.cpp: 未定義のときにも命令が表示されるバグ、表示される命令が違うバグ修正
+
+2004-04-30  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* windows/resource/menu.rc: 追加。右クリックのメニューのリソース
+
+	* windows/resource/Makefile: 追加
+
+	* windows/resource/language.h (LANGUAGE_JAPANESE): 追加
+
+	* windows/include/winresource.h: 追加
+
+2004-04-29  Fumihiko MACHIDA  <machida@users.sourceforge.jp>
+
+	* windows/winruputer.cpp (OptionIsChanged): 半透明化／背景透過ができなくなっていたのを修正。
+	(registerClassName): style に CS_HREDRAW, CS_VREDRAW を追加
+
+	* common/native/util/itoa.h: 追加
+
+	* common/native/util/itoa.c: 追加
+
+	* common/native/disp/disprtc.c (sub_dispRtcDate): sprintf は大きいので%2dを上記自作関数で作るようにする
+	(sub_dispRtcTime, sub_dispRtcSec): 同上
+
+	* common/native/disp/emudisprtc.s : dispRtc...（外側には、dispNow ... ） 関係のエミュレーション追加
+
+	* common/native/disp/disprtc.c: 同上
+
+	* common/rupsys/rupsys.cpp (callSysIntr): 同上のコードを呼び出すための修正
+
+2004-04-04  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* windows/winruputer.cpp (WINRuputer): winlcd の初期化ミス修正（落ちなくはなったと思います）
+
+2004-03-11  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* x11/x11ruputer.cpp (initX11): コンストラクタから移動
+	(X11Ruputer): Ruputer クラスと同様のシグネチャにする
+
+	* x11/main.cpp (main): X11 も aurex.ini に対応。ただし、英字の大小が混在するとうまく動かない。
+
+2004-03-10  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* common/filerini/* : 追加。Filer.ini, Aurex.ini に対応。現状は不
+	完全ながら Aurex.ini に対応
+
+2004-03-07  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* common/native/disp/dispyn.c (sub_dispYNb, sub_dispYN): dispYN (Large) のエミュレート追加
+
+	* common/native/disp/emudispyn.s (_emu_dispYN, _emu_dispYNb): 同上
+
+	* common/native/disp/dispmess.c (sub_dispMESS): dispMess のエミュレート追加
+
+	* common/native/disp/emudispmess.s (_emu_dispMESS): 同上
+
+	* common/lcd/lcdblrvmgr.cpp (proceed): 「開始」していないリージョン
+	までブリンク／リバースしていたバグ修正
+
+	* common/lcd/lcdfunc.cpp (callLcdFunc): 外字を扱えるように変更。
+
+	* common/mmp/romgaiji.cpp: 外字を扱うモジュール追加。同.h も同様
+
+	* common/psdos/fdmgr.cpp : map を使うように変更
+
+	* common/native/softkey/smallen.c: テーブル定義のミスを直す
+
+	* common/native/softkey/softkey.c (sub_softkey): 変数の初期化忘れのバグ解消
+
+	* common/native/common/emu_font.h : 追加
+
+	* common/native/common/emu_rupsys.h : 追加
+
+	* common/native/common/emu_lcdbios.h : 追加
+
+	* common/mmp/util/aurexmmp.txt: 追加。内蔵 MMP を描く
+
+	* common/native/Makefile: softkey 追加。モジュール名変更
+
+	* common/rupsys/rupsys.cpp (callSysIntr): softkey 追加
+
+	* common/mmp/romdata.h: 追加。内蔵 MMP を保持する（aurexmmp.txt より作成される）
+
+	* common/mmp/rommmp.cpp: 追加。内蔵 MMP を扱うクラス
+
+	* common/native/softkey/softkey.c:  以下追加。softkeyのエミュレーションのため
+
+	* common/native/softkey/emusoftkey.s:
+
+	* common/native/softkey/smallen.c:
+
+	* common/native/softkey/softkey.h:
+
+	* common/native/common/emu_rupsys.s: 名前変更
+
+	* common/native/common/emu_lcdfunc.s: 追加。
+
+	* common/native/common/emu_lcdbios.s: 同上
+
+2004-03-06  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* common/native/menu/menu.c (sub_aprMenu): サブメニューがあるのは
+	右キーでも行けるようにした。
+
+	* common/font/cessjis.cpp (convToEuc): 最後に 0 が付いてないバグ修正
+
+	* x11/font/x11lcdfontsjis.cpp : 追加。同.h も追加
+
+	* x11/graphic/x11lcd.cpp (updateWindow): 各種 bpp に対応
+
+2004-03-05  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* x11/x11ruputer.cpp (X11Ruputer): (icon) を取る。
+
+	* common/main/ruputer.cpp (Ruputer): オプションに "Latin Font" を
+	追加。true だと、（SJISの半角カナの代わりに）iso8859-1 西欧の文字を出力(onHand)
+
+	* common/lcd/cmlcd.cpp (OptionIsChanged): 追加
+
+	* windows/font/winlcdfontsjis.cpp (WINLcdFontSjis): 追加。
+
+2004-03-04  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* windows/include/winlcdfont.h (class WINLcdFont): winlcd.h から独立
+
+	* common/include/sdlcdfont.h (class SDLcdFont): sdlcd.h から独立
+
+2004-03-02  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* common/lcd/lcdfunc.cpp (callLcdFunc): フォントコードが60より大き
+	くなったときにエラーになるようにした。
+
+	* common/rupsys/rupsys.cpp (initRupSysTable): onHand のシステムコー
+	ルに対応。ただし、エミュレートできるかは別。(onHand)
+	(callSysIntr): getFilerVersion 追加 (onHand)
+
+2004-02-28  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* common/lcd/lcdblrvmgr.cpp (closeAll): 追加
+
+	* common/timer/timermgr.cpp (closeAll): 追加
+
+	* common/main/ruputer.cpp (closeAllThread, init): 追加
+
+	* common/other/frame.cpp (sync, OptionIsChanged): 追加。フレーム時間の増減を可能に。
+
+2004-02-26  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* doc/memory.txt: ROMのアドレスを追加。
+
+	* common/include/internalfont.h (class InternalFont): 追加。内蔵フォントに対応。
+
+	* common/memory/internalfont.cpp: 同上
+
+2004-02-24  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* common/directory/dosdirectory.cpp (isSameDriveLetter): ドライブレターの大小関係なく比較するメソッド追加
+
+	* x11/include/x11fontset.h: 追加。
+
+	* x11/include/x11lcdfont.h (class X11LcdFont): 追加
+
+	* x11/graphic/x11fontset.cpp: 追加
+
+	* x11/graphic/x11lcdfont.cpp: 追加。
+
+2004-02-23  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* common/directory/directory.cpp (isSetupDirectory): dirstack の内
+	容も見るように変更
+
+	* common/directory/dirstack.cpp (isSetup): 追加
+
+2004-02-22  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* common/native/menu/menu.c (show_menu_item): メニューの個数が4つ
+	以下の場合おかしかったバグ修正
+
+	* common/sound/soundsyncnull.cpp: 追加。音は鳴らないが時間調節を行なう。
+
+	* common/include/soundsyncnull.h: 同上
+
+	* common/sound/soundsync.cpp (SoundSync): SDSound があるときだけ開
+	くようにする
+
+	* common/sound/sound.cpp: 追加。以下サウンド関係も同様に追加。
+
+	* common/include/soundsync.h: 
+
+	* common/include/soundasync.h: 
+
+	* common/include/sound.h: 
+
+	* common/wbios/wbiossound.cpp: 
+
+	* common/sound/soundsync.cpp: 
+
+	* common/sound/soundasync.cpp: 
+
+	* common/directory/dirstack.cpp (add, concat): add というメソッド
+	名が相応しくないので concat に変更
+
+	* common/directory/dosdirectory.cpp (chdir): 修正。（メモリリーク）
+
+	* common/directory/unixdirectory.cpp (chdir): 同上
+
+	* common/lcd/lcdblrvmgr.cpp (del): 同上
+
+	* common/lcd/lcd.cpp (callLcdFunc): 同上
+
+2004-02-21  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* common/native/menu/menu.c (sub_aprMenu): 素の EventCall を呼んでいたバグ修正
+
+	* common/lcd/lcdblrvmgr.cpp: 同じくコンテナ使用に切り替え
+
+	* common/thread/threadmgr.cpp: コンテナ使用にしたため削除
+
+	* common/include/threadmgr.h: 同上
+
+2004-02-20  Fumihiko MACHIDA  <fumi@megadriver.ns.tc>
+
+	* common/main/ruputer.cpp (Ruputer): Ruputer クラスに memory と
+	memcpu のインスタンスを持たせて使い回す（最低だよね？）ことをやめる
+
+	* common/include/rupaddress.h (class RupAddress): 上記修正による修正
+
+	* common/timer/timermgr.cpp (TimerMgr): 同上
+
+	* common/cpu/cpu.cpp (Cpu): 同上
+
+	* common/thread/thread.cpp (MainThread, Thread): 同上
+
+	* common/memory/memoryinside.cpp (MemoryForInside): 追加
+
+2004-02-19  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* common/option/cmoption.cpp (CMOption): オプション名が変数の命名
+	規約と混同していたのを修正
+
+	* common/thread/thread.cpp (execute): 追加。というか、ruputer.cpp からの引越し
+
+	* common/option/optionitem.cpp (getValueString): 未定義の時ぬるぽっていたのを修正
+
+2004-02-15  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* x11/ : 追加。ただ、key 入力するとセグフォる。何故に？
+
+	* common/option/optionmgr.cpp (OptionMgr): オプションを読み込むよ
+	うにする。ただし現状は、rootDirectory のみ使用。
+	(load): option のファイルが無いとエラーになるバグ修正
+
+	* common/directory/directoryconverter.cpp (convert): 変換先のディ
+	レクトリを設定していないなら変換しないようにする。ただし、変換先が 
+	RuputerDirectory （つまり、Ruputer 側の path に変換する）なら、常
+	に成功する。（b:\ 付けたすだけだから）
+
+	* common/directory/unixdirectory.cpp (isSetupDirectory): 追加。
+
+	* common/include/cmoptionitem.h: 共通オプションの要素のクラス。追加
+
+	* common/option/cmoptionitem.cpp: 追加
+
+2004-02-14  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* common/lcd/lcdport.cpp: lcdport からの読み込み追加。けど、うまういってない？
+
+	* common/psdos/psdos_file.cpp: ファイル入出力をようやくまともに。
+
+	* common/psdos/psdos.cpp: 
+
+	* common/directory/... : ディレクトリ関連追加。
+	ただし、インターフェースはいいとして、実装が汚いというか分かりづらいので書き直すかも。
+
+
+2004-02-12  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* common/rupsys/systimer.cpp (decriment): event が入った場合
+	0x8000 しか返さない仕様を、(現在あるkey | 0x8000) を返すように修正。
+	(decrement): typo 修正。decriment → decrement
+
+	* common/include/frame.h (class Frame): 画面周りの更新処理はスキッ
+	プできるように、割り込みが確実に入るようにする。
+
+	* common/other/frame.cpp (startFrame, endFrame)
+	(isFrameUpdateSkip, endFrameUpdate): 上記理由により追加
+	(checkTime): 上記理由により、修正
+
+2004-02-11  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* qte/... : qte 関連追加。
+
+	* common/thread/thread.cpp (MainThread): MainThread のデストラクト
+	時に二回 delete されるバグ修正
+
+2004-02-09  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* common/lcd/cmlcd.cpp (setPoint): gv_kput 系の logic に対応
+	(subDrawString): 同上
+
+	* common/include/rupaddress.h: gv_place の座標格納するところ追加
+
+	* common/lcd/lcdfunc.cpp (callLcdFunc): gv_place 対応
+
+	* common/lcd/lcd.cpp (callLcdFunc): 同上
+
+	* ...: 各ソース中の fprintf を #ifdef DEBUG 〜 #endif で囲む
+
+	* common/memory/memorybase.cpp: big endian 対応と misalignment の対応
+
+2004-02-08  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* common/other/keybuffer.cpp (updateState): curses のリアルタイム
+	でのキー入力が（telnet では？）ほとんど使いものにならないのを少し改善
+	(clearState): 追加
+
+	* common/memory/port.cpp (read8, read16, read24): 同上の問題による修正
+
+	* ... : オプション関連いろいろ修正
+
+2004-02-07  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+
+	* common/rupsys/rupsys.cpp (callNativeCode): kernel stack の位置を修正
+
+	* common/native/common/common.s (nesting_plus_one): ditto
+
+	* common/cpu/mnprint.cpp (printMnemonic): c8 の命令が表示できなかったバグ修正
+
+	* common/lcd/lcdblrvmgr.cpp (del): blink, reverse の削除で落ちていたのを修正
+	(add): 追加時のポインタの貼り忘れ修正
+
+	* common/include/rupaddress.h: Event 関連の値を 24bit → 32bit 修正
+
+	* common/memory/memorybase.cpp (readMemory32, writeMemory32): 上記問題により追加
+
+	* common/memory/memoryinside.cpp (write32, read32): ditto
+
+	* common/timer/timermgr.cpp (deleteTimer): 2本ある 1hz の添字が間違っていたのを修正
+
+	* common/native/...: もろもろ変更。
+
+	* common/rupsys/rupsys.cpp (callNativeCode): 追加
+	(callSysIntr): aprMenu 追加
+
+2004-02-06  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* common/memory/memorycpu.cpp (~MemoryForCpu): 追加
+
+2004-02-05  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* curses/include/curframe.h (class CURFrame): 1970 年から秒数だった
+	が、起動時からのオフセット値になるように修正
+
+	* common/main/ruputer.cpp (main_loop): rtn でタイマルーチンが抜け、
+	と同時に cycle 使い果したときにはタイマルーチンが終了しないバグの修正
+
+	* common/include/timer.h: カーネルスタックを各タイマ毎に割り振る。
+
+	* common/thread/thread.cpp: 同上
+
+	* common/include/thread.h: 同上
+
+	* common/other/interruption.cpp: 同上
+
+	* common/timer/timer.cpp: 同上
+
+	* common/main/ruputer.cpp: 同上
+
+	* common/include/memorycpu.h: memory.h からの分離独立。
+
+	* curses/curruputer.cpp: 上記による修正
+
+	* common/cpu/cpu.cpp: 同上
+
+	* common/cpu/mnexpr.cpp: 同上
+
+	* common/cpu/mncore.cpp: 同上
+
+	* curses/option/curoption.cpp: 追加。ウィジットを(n)curses で行なうためのもの
+
+	* curses/other/curdirectory.cpp: 同上
+
+	* curses/include/
+	curdirectory.h, curframe.h,
+	curlcd.h, curoption.h,
+	curruputer.h : 同上
+
+	* curses/graphic/curlcd.cpp: 同上
+
+	* curses/curruputer.cpp: 同上
+
+	* curses/main.cpp: 同上
+
+2004-02-04  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* doc/develog.txt : define 集追加
+
+	* other/keybuffer.cpp (updateState): KEY_WITHOUT_PUSH_UP define さ
+	れるとkey port に 0 しか書かれれないバグ修正
+
+	* ... : 標準出力にしゅつりょくしていたデバッグ情報はエラー出力に出るようにする
+
+	* timer/timer.cpp (~Timer): 追加。delete しわすれのため。
+
+	* thread/threadmgr.cpp (remove): delete しわすれのメモリリーク修正
+
+	* ... : もろもろ修正。メモリは継承せずに、リトル／ビッグエンディア
+	ンのを #ifdef で分けることにする。  そのため、Memory は統一。
+	SDMemory 系削除。もろもろの変更。少しは綺麗になったかも。
+
+	* memory/memorybase.cpp : 追加
+
+	* memory/memoryinside.cpp : 追加
+
+2004-02-03  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* other/keybuffer.cpp (updateState): KEY_WITHOUT_PUSH_UP を定義して
+	コンパイルするとキーが離れたのが認識できないシステムでも変にならない。
+	ただし、同時押しが不可。
+
+	* include/ruputer.h: WatchDT *watchdt,  private -> public
+
+	* main/rupstruct.cpp (getMonth, getWDay, getMin, getSec)
+	(getYearBcd, getMonthBcd, getMDayBcd, getHourBcd, getMinBcd)
+	(getSecBcd, toBcd): 追加。WatchDT というクラスが現在時全体を司る感じ。
+
+	* wbios/wbios.cpp (bi_tmread, bi_dtread): 追加
+
+	* lcd/lcdblrvmgr.cpp (setState, start, stop): 追加。start, stop が
+	出来ることを忘れていたため
+	(proceed): stop 状態なら、実行しないように修正
+
+	* lcd/lcdfunc.cpp : blink, reverse の全関数対応。
+
+2004-01-31  Fumihiko MACHIDA  <fumi@megadriver.yi.org>
+
+	* lcd/lcdport.cpp, include/lcdport.h : 追加。LCD Port を直接叩く関連
+
+	* timer/timer.cpp (Timer): exectingFlag の初期化忘れの修正
+
+	* thread/threadmgr.cpp (add): タイムスライスの方式の変更
+
+	* main/ruputer.cpp (main_loop):
+
+	* include/systimer.h: 追加
+
+	* rupsys/systimer.cpp: ditto

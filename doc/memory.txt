@@ -1,0 +1,382 @@
+// -*-coding: euc-jp-unix;-*-
+
+0x100 SYSTEMCTL    psp+0x80 でここを指す 67*4 = 0x240
+ +0x00 EVENTMANAGE *EventManager;  /* ｲﾍﾞﾝﾄ管理		*/
+ +0x04 PARAMSYS *Paramsys; 	/* ｼｽﾃﾑ・ﾊﾟﾗﾒｰﾀ 		*/
+ +0x08 int *SystemPower; 	/* ｵｰﾄ・ﾊﾟﾜｰ on/off状態 	*/
+ +0x0c WatchDT *CPUram; 	/* 時刻				*/
+ +0x10 RUPSYS *RupDefine; 	/* Ruputerｼｽﾃﾑ定義構造体領域	*/
+ +0x14 int *RupRelatedSize;	/* ﾌｧｲﾙの関連づけ定義構造体領域の数	*/
+ +0x18 RELATED *RupRelated;	/* ﾌｧｲﾙの関連づけ定義構造体領域		*/
+ +0x1c int *FileInfoSize;	/* ﾌｧｲﾙ情報の数				*/
+ +0x20 FILEINFO *FileInfo;	/* ﾌｧｲﾙ情報(ｿｰﾄされていない)		*/
+ +0x24 FILEINFO **FileList;	/* ﾌｧｲﾙ情報のﾘｽﾄ(ｿｰﾄされている)		*/
+ +0x28 char *DirectoryPath;	/* 現在のﾃﾞｨﾚｸﾄﾘﾊﾟｽ			*/
+ +0x2c int *DirectoryTree;	/* ﾊﾟｽの深さ				*/
+ +0x30 int *BLDReq;		/* BLD確認要求				*/
+ +0x34 int *BLD;		/* BLD検出結果				*/
+ +0x38 int *BLDExecute;		/* 電池交換EXFの起動要求		*/
+ +0x3c unsigned int *MelodyPlay; /* ﾒﾛﾃﾞｨ演奏ﾊﾞｯﾌｧ			*/
+ +0x40 int *Secret;		/* ｼｰｸﾚｯﾄ情報の表示／非表示		*/
+ +0x44 STW *STWdata;		/* ｽﾄｯﾌﾟｳｫｯﾁ 				*/
+ +0x48 int *repflg;		/* ﾎﾞﾀﾝのﾘﾋﾟｰﾄ状況			*/
+ +0x4c int *TimerStat;		/* ﾀｲﾏｰ制御(状態)			*/
+ +0x50 Tdata *TIMERdata;	/* ﾀｲﾏｰ制御(時間)			*/
+
+ +0x54 no.0x100	int (*Keyin)
+ +0x58 no.0x101 event...
+
+ 0x233 までブランク
+ +0x134	long apisysのアドレス 0x1100
+ +0x138 long apimenuのアドレス0x1200
+ +0x13c long apitoolのアドレス0x1300
+
+0x340 EVENTMANAGE 0x000100(4) が指す先 4*614*22 = 54 0x36
+ +0x00 long eventReq;		/* ｲﾍﾞﾝﾄの発生要求 		*/
+ +0x04 long event;		/* ｲﾍﾞﾝﾄの発生状態 		*/
+ +0x08 int BLDnoKEYcounter;	/* BLD無操作ｲﾍﾞﾝﾄ(分ｶｳﾝﾄ) 	*/
+ +0x0a int RETcounter;		/* ｵｰﾄﾘﾀｰﾝ･ｲﾍﾞﾝﾄ(分ｶｳﾝﾀ)	*/
+ +0x0c int SAVERcounter;	/* ｾｰﾊﾞ･ｲﾍﾞﾝﾄ(秒ｶｳﾝﾀ)		*/
+ +0x0e int POFFtime;		/* ｵｰﾄﾊﾟﾜｰｵﾌ(off)･ｲﾍﾞﾝﾄ(時分合致) */
+ +0x10 int PONtime;		/* ｵｰﾄﾊﾟﾜｰｵﾌ(on)･ｲﾍﾞﾝﾄ(時分合致)  */
+ +0x12 int ReOFFtime;		/* 再ｵｰﾄﾊﾟﾜｰｵﾌ(off)･ｲﾍﾞﾝﾄ(秒ｶｳﾝﾄ) */
+ +0x14 short WEEKday1;		/* 週ｱﾗｰﾑ1・ｲﾍﾞﾝﾄ(週時分合致)	  */
+ +0x16 short WEEKtime1;		/* 週ｱﾗｰﾑ1・ｲﾍﾞﾝﾄ(週時分合致)	  */
+ +0x18 short WEEKday2;		/* 週ｱﾗｰﾑ2・ｲﾍﾞﾝﾄ(週時分合致)	  */
+ +0x1a short WEEKtime2;		/* 週ｱﾗｰﾑ2・ｲﾍﾞﾝﾄ(週時分合致)	  */
+ +0x1c short WEEKday3;		/* 週ｱﾗｰﾑ3・ｲﾍﾞﾝﾄ(週時分合致)	  */
+ +0x1e short WEEKtime3;		/* 週ｱﾗｰﾑ3・ｲﾍﾞﾝﾄ(週時分合致)	  */
+ +0x20 short WEEKday4;		/* 週ｱﾗｰﾑ4・ｲﾍﾞﾝﾄ(週時分合致)	  */
+ +0x22 short WEEKtime4;		/* 週ｱﾗｰﾑ4・ｲﾍﾞﾝﾄ(週時分合致)	  */
+ +0x24 long ALMtime;		/* ｽｹｼﾞｭｰﾙ･ｱﾗｰﾑ･ｲﾍﾞﾝﾄ(年月日時分合致)	*/
+ +0x28 long USR1time;		/* ﾕｰｻﾞ1･ｱﾗｰﾑ･ｲﾍﾞﾝﾄ(年月日時分合致)	*/
+ +0x2c long USR2time;		/* ﾕｰｻﾞ2･ｱﾗｰﾑ･ｲﾍﾞﾝﾄ(年月日時分合致)	*/
+ +0x30 long USR3time;		/* ﾕｰｻﾞ3･ｱﾗｰﾑ･ｲﾍﾞﾝﾄ(年月日時分合致)	*/
+ +0x34 int SECcounter;		/* 秒ｶｳﾝﾀ				*/
+0x376 Paramsys    0x000104(4) が指す先 4*36*2 = 24 0x18
+ +0x00 long BLD1;		/* BLD1値 		*/
+ +0x04 long BLD2;		/* BLD2値		*/
+ +0x08 long Battery;		/* ﾊﾞｯﾃﾘ値		*/
+ +0x0c int LCDVolMin;		/* LCDﾎﾞﾘｭｰﾑ最低値	*/
+ +0x0e int LCDVolMax;		/* LCDﾎﾞﾘｭｰﾑ最大値	*/
+ +0x10 int VOLBLD1In;		/* 重負荷BLD1電圧入る	*/
+ +0x12 int VOLBLD1Re;		/* 重負荷BLD1電圧復帰	*/
+ +0x14 int VOLBLD2;		/* 重負荷BLD2電圧	*/
+ +0x16 int VOLFileOpen;		/* ﾌｧｲﾙｵｰﾌﾟﾝ可能電圧	*/
+0x38e int         0x000108(4) が指す先 2 byte
+ +0x00 int *SystemPower;	/* ｵｰﾄ・ﾊﾟﾜｰ on/off状態	*/
+0x390 WatchDT     0x00010c(4)          2*7 = 14 0xe
+ +0x00 int NOW_Year;		/* 年	*/
+ +0x02 int NOW_Month;		/* 月	*/
+ +0x04 int NOW_Day;		/* 日	*/
+ +0x06 int NOW_Week;		/* 週	*/
+ +0x08 int NOW_Hour;		/* 時(24時制)	*/
+ +0x0a int NOW_Min;		/* 分	*/
+ +0x0c int NOW_Sec;		/* 秒	*/
+0x39e RUPSYS      0x000110(4)          61486813*294*2=256 = 0x100
+ +0x00 char  System0[6];	/* ｼｽﾃﾑ使用			*/
+ +0x06 short System1;		/* ｼｽﾃﾑ使用			*/
+ +0x08 short Contlast;		/* LCDｺﾝﾄﾗｽﾄ			*/
+ +0x0a short PowerSaver;	/* ﾊﾟﾜｰｾｰﾊﾞ設定			*/
+ +0x0c short WaitTime;		/* ｾｰﾊﾞが実行されるまでの待ち時間設定	*/
+ +0x0e short ScreenSaver;	/* ｾｰﾊﾞ表示設定				*/
+ +0x10 short ScreenSaverOFFtime;	/* LCD off時間			*/
+ +0x12 short ScreenSaverONtime;		/* LCD on時間			*/
+ +0x14 char ScreenSaverMMP[8];		/* 壁紙mmpﾌｧｲﾙ			*/
+ +0x1c short TimeCheck;			/* TIMEﾁｪｯｸ設定			*/
+ +0x1e short PowerStandby;		/* ﾊﾟﾜｰｽﾀﾝﾊﾞｲ設定		*/
+ +0x20 short PowerWaitTime;		/* ｵｰﾄﾊﾟﾜｰｵﾌまでの待ち時間設定	*/
+ +0x22 HOURTIME PowerON;		/* ｵｰﾄﾊﾟﾜｰｵﾝ時刻設定	  	*/
+  +0x22 short Hour;			/* 時		*/
+  +0x24 short Minute;			/* 分		*/
+ +0x26 HOURTIME PowerOFF;		/* ｵｰﾄﾊﾟﾜｰｵﾌ時刻設定		*/
+  +0x26 short Hour;			/* 時		*/
+  +0x28 short Minute;			/* 分		*/
+ +0x2a short BackLight;			/* ﾊﾞｯｸﾗｲﾄ設定(EL)		*/
+ +0x2c short CheckBeep;			/* 操作確認音設定		*/
+ +0x2e short CheckSound;		/* 週ｱﾗｰﾑ&userｱﾗｰﾑ音設定	*/
+ +0x30 short FilerType;			/* ﾃﾞｨﾚｸﾄﾘ表示ﾓｰﾄﾞ		*/
+ +0x32 short FilerKind;			/* ﾃﾞｨﾚｸﾄﾘ表示ﾓｰﾄﾞ		*+/
+ +0x34 short FilerSort;			/* ﾃﾞｨﾚｸﾄﾘ表示ﾓｰﾄﾞ		*/
+ +0x36 short CommBaud;			/* 通信速度設定			*/
+ +0x38 short ClockType;			/* 時制設定			*/
+ +0x3a short Secret;			/* ｼｰｸﾚｯﾄ情報の表示／非表示	*/
+ +0x3c short DispLoad;			/* dispLoad表示設定		*/
+ +0x3e short Dst;			/* 基準時間のｻﾏｰﾀｲﾑ設定		*/
+ +0x40 short DispWait;			/* dispWait表示設定		*/
+ +0x42 short IrRshMode;			/* 赤外ﾘﾓｰﾄｼｪﾙ設定		*/
+ +0x44 short filler[94];		/* 予備				*/
+0x49e int         0x000114(4)          2 byte
+0x4a0 RELATED     0x000118(4)          464832=54 0x36
+ +0x00 char suffix[4];
+ +0x04 short attr;
+ +0x06 unsigned short id;
+ +0x08 unsigned short font;
+ +0x0a unsigned long mmp;
+ +0x0e char file[8];
+ +0x16 char app[32];
+0x4d6 int        0x00011c(4)          2 byte
+0x4d8 FILEINFO   0x000120(4)          8113=22 0x16
+ +0x00 unsigned int time;	/* 書き込み時間		*/
+ +0x02 unsigned int date;	/* 書き込み日付		*/
+ +0x04 unsigned long size;	/* ﾌｧｲﾙｻｲｽﾞ		*/
+ +0x08 unsigned char attr;	/* ﾌｧｲﾙ属性		*/
+ +0x09 unsigned char file[13];		/* ﾌｧｲﾙ名	*/
+0x4ee FILEINFO *  0x000124(4)          4
+0x4f2 char  [256] 0x000128(4)          256 0x100 現在のﾃﾞｨﾚｸﾄﾘﾊﾟｽ
+0x5f2 int         0x00012c(4)          2         ﾊﾟｽの深さ
+0x5f4 int         0x000130(4)          2      BLD確認要求
+0x5f6 int         0x000134(4)          2      BLD検出結果
+0x5f8 int         0x000138(4)          2 電池交換EXFの起動要求
+0x5fa int         0x00013c(4)          0x402 ﾒﾛﾃﾞｨ演奏ﾊﾞｯﾌｧ
+
+0x9fc int         0x000140(4)          2 ｼｰｸﾚｯﾄ情報の表示／非表示
+0x9fe STW         0x000144(4)          2*4=8 ｽﾄｯﾌﾟｳｫｯﾁ
+ +0x00 int msec;
+ +0x02 int sec;
+ +0x04 int min;
+ +0x06 int hour;
+0xa06 int         0x000148(4)          2 ﾎﾞﾀﾝのﾘﾋﾟｰﾄ状況
+0xa08 int         0x00014c(4)          2 ﾀｲﾏｰ制御(状態)
+0xa0a Tdata       0x000150(4)          2*4=8 ﾀｲﾏｰ制御(時間)
+ +0x00 int hour;
+ +0x02 int min;
+ +0x04 int sec;
+ +0x06 int co;
+0xa12
+
+/* 2005-1-07(Fri)消去
+0x1000 user timer 1 hz
+0x1008 user timer 1 hz
+0x1010 user timer 4 hz
+0x1014 user timer 64 hz
+*/
+0x1020 default dta address 44 0x2c
+
+/* onHand only */
+0x1100 60ko
+ +0000 no.0x100	int (*Keyin)
+ +???? no.0x13b	int (*pauseScroll2)(int,int,int,int);// Jump mark
+0x1200 rupmenu 33個
+     0x200 ~ 0x220
+0x1300 ruptool 60個 
+     0x300 ~ 0x33b
+
+/* 2005-1-07(Fri)消去
+各カーネルスタック。ちょとどうなるか微妙
+#define A_TIMER_1HZ0_SP 0x2000
+#define A_TIMER_1HZ1_SP 0x3000
+#define A_TIMER_4HZ_SP 	0x4000
+#define A_TIMER_64HZ_SP	0x5000
+
+#define A_KERNEL_1HZ0_SP 0x6000
+#define A_KERNEL_1HZ1_SP 0x7000
+#define A_KERNEL_4HZ_SP  0x8000
+#define A_KERNEL_64HZ_SP 0x9000
+*/
+// メインのカーネルスタックはおおきめにしておく
+#define A_KERNEL_MAIN_SP 0xB000
+
+0xB000 - 0xEfff 未使用
+
+0xF000 -   0xF3FF OS使用(一部ファイラー)   CPU内蔵RAM 
+
+0xf000		#Vector Table
+0xf080	EVENTREGSTER     #BIOS data (locates on Internal-RAM)
+0xf080 B_FKEYBAS  	 Base for Fast KEY
++0x0000 _FKEYALM  	 <f080> 1B: Alarm TimeUp flag
++0x0001 _FKEYRSV  	 <f081> 1B: Reserve
++0x0002 _FKEYSIZE 
+0xf082 B_SIOBASE  	 Base address for SIO
++0x0000 _SIOMETHOD  	 <f082> 1B: communication method
++0x0001 _SIOBAUD  	 <f083> 1B: Baud rate
++0x0002 _SIOIRPULS  	 <f084> 1B: IrDA pulse width
++0x0003 _SIOTXFLAG  	 <f085> 1B: Tx flag
++0x0004 _SIOTIMFLAG  	 <f086> 1B: Time out flag
++0x0005 _DUMMY_1  	 <f087> 1B: dummy
++0x0006 _SIOTIMOUT  	 <f088> 2B: Time out count
++0x0008 _SIOTIMID  	 <f08a> 4B: Time out ID
++0x000c _SIOREGCTR  	 <f08e> 4B: Serial contorol register
++0x0010 _SIOREGTRB  	 <f092> 4B: Serial tr buffer register
++0x0014 _SIOREGSTR  	 <f096> 4B# Serial status register
++0x0018 _SIORXSTAT  	 <f09a> 2B: Receive status
++0x001a _SIORBSET  	 <f09c> 2B: Receive buffer write pointer
++0x001c _SIORBGET  	 <f09e> 2B: Receive buffer read pointer
++0x001e _SIORBCNT  	 <f0a0> 2B: Received data count
++0x0020 _SIORBUF  	 <f0a2> 300B: Receive buffer(data / status )
++0x014c _SIOSTATUS  	 <f1ce> 2B: SIO status 
++0x014e _SIOERR  	 <f1d0> 1B: Error status
++0x014f _SIOIrDACNT  	 <f1d1> 1B: Radiation count for IrDA.
++0x0150 _SIODSIZE
+0xf1d2 B_FPOWBAS  	 base for Fast Power
++0x0000 _BATCTR  	 <f1d2> 4B*_FACTCT: Counter
++0x000d _BAT27V  	 <f1fa> 1B: A/D value of 2.7 Volt
++0x000e _POWRSV1  	 <f1fb> 1B: reserve
++0x000f _FPOWSIZE
+0xf1fc B_TIMBASE  	 base address for TIMER
+0xf1fc B_TTBL1HZ  	 <f1fc> 8B*6: Timer table for 1Hz    タイマ構造体
++0x0000 _CURTIK  	 2B Current tick value (0=Inactive)
++0x0002 _TIKINI  	 2B Tick reset value
++0x0004 _TIMHNDL  	 4B Timeout Handler
+0x0008 _TTBLSZ  	 TimerTable size
+  …
+0xf22c B_TTBL4HZ  	 <f22c> 8B*6:			  4Hz
+0xf25c B_TTBL64HZ  	 <f25c> 8B*4:	 		 64Hz
+0xf27c B_FBUZBASE
++0x0000 _NOTECNT  	 <f27c> 2B: Current count
++0x0002 _FBUZSIZE  	 <f27e> Free
+
+
+0xf280 〜 0xf37f 空ける。いわゆる「高速 SRAM 」である。
+0xf89a 〜 0xf8fc フォント系のアドレス
+0xfc00 〜 0xffff CPU 関連
+
+// LCDの64Hz同期信号
+	memory[0x00ffd4]|=0x40;
+
+
+0x10000 - 0x1ffff rupsys のnativeコード 64KBytes
+0x20000 - 0x2ffff 16 本分のタイマ
+ 0x20c00 : sp        (3072 byte)
+ 0x20ffc : kernel sp (1029 byte)
+ 0x20ffe : table
+ 0x21000 : base
+
+0x30000 - 0x7ffff 現状未使用 327 kbyte 
+
+
+0x80000 -  0x83FFF OS使用(一部ファイラー)   CPU内蔵ROM
+0x80200 A_SWINTENT 割り込みルーチン
+0x80580	#BIOS on High Speed Internal ROM
+
+0x100000 - 0x109AFF OS使用                   外部SRAM
+0x10001c lcdfree の値？（onHand だけ？）
+0x1001d6 LCD の現在の位置の x 座標
+0x1001d8                    y 座標
+0x103780 B_POWBASE  	 base address for POWER
++0x0000 _BATADJ  	 <+000> 4B*n Adjuster
++0x0028 _BATPOWER  	 <+028> 4B Battery Power
++0x002c _BAT1HZ  	 <+02c> 2B 1Hz Intr. Counter
++0x002e _POWSIZE  	 PowerTableSize
+0x1037ae B_BUZDBASE  	 Base address for BUZZER
++0x0000 _BUZTOQ  	 <+02e> 4B TimeOut QUE Address
++0x0004 _BUZTUP  	 <+032> 1B TimeUp flag
++0x0005 _BUZENV  	 <+033> 1B Enveloping factor(0=Do NoEnveloping)
++0x0006 _BUZTMPO  	 <+034> 2B Tempo
++0x0008 _BUZVOL  	 <+036> 2B Volume
++0x000a _BUZENVI  	 <+038> 2B Enveloping period (intializer)
++0x000c _BUZENVC  	 <+03a> 2B  				 (Counter)
++0x000e _BUZLEN  	 <+03c> 2B Buzzer length(64Hz)
++0x0010 _BUZMELP  	 <+03e> 4B Melody pointer
++0x0014 _BUZNOTE  	 <+042> 87*2B PreScaller , Timer
++0x00c2 _BUZDSIZE
+0x103870 B_ELDBASE  	 base address for EL Driver
++0x0000 _ELTOQ  	 <+0f0> 4B TimeOut Queue Address
++0x0004 _ELSEC  	 <+0f4> 2B ON Timer (Sec Order)
++0x0006 _ELDSIZE
+0x103876 B_ROMDBASE  	 base address for ROMDISK
++0x0000 _ROMCYL  	 <+0f6> 1B Max Cylinder#
++0x0001 _ROMSECT  	 <+0f7> 1B Max Sector#
++0x0002 _ROMHEAD  	 <+0f8> 1B Max Head#
++0x0003 _ROMSSIZ  	 <+0f9> 1B SectorSize(0/1/2/3=128/256/512/1024)
++0x0004 _ROMERR  	 <+0fa> 2B	error code
++0x0006 _ROMDSIZE
+0x10387b B_FMEMBASE  	 Base address for Flash-Mem
++0x0000 _FMEMID  	 <+0fc> 1B Memory id
++0x0001 _FMEMDUMMY1  	 <+0fd> 1B dummy
++0x0002 _FMEMABLK  	 <+0fe> 2B All block number
++0x0004 _FMEMBLKSIZ  	 <+100> 2B Block size
++0x0006 _FMEMPGSIZ  	 <+102> 2B Page size
++0x0008 _FMEMPGCNT  	 <+104> 2B Pages/block
++0x000a _FMEMPGSEC  	 <+106> 2B Pages/Sector
++0x000c _FMEMCASTAT  	 <+108> 1B Cache buffer status
++0x000d _FMEMHEAD  	 <+109> 1B Max Head#
++0x000e _FMEMCYL  	 <+10a> 1B Max Cylinder#
++0x000f _FMEMSECT  	 <+10b> 1B Max Sector#
++0x0010 _FMEMSSIZ  	 <+10c> 2B SectorSize
++0x0012 _FMEMCABLK  	 <+10e> 2B Block number using cache
++0x0014 _FMEMA_PGTBL  	 <+110> 4B Page status table address
++0x0018 _FMEMA_CACH  	 <+114> 4B Cache buffer address
++0x001c _FMEMA_NEXT  	 <+118> 4B Base address for next Bios
++0x0020 _FMEMERR  	 <+11c> 2B Error status
++0x0022 _FMEMSTAT  	 <+11e> 2B Flash memory status.
++0x0024 _FMEMVBLK  	 <+120> 2B Valid block number
++0x0026 _FMEMSSTBL  	 <+122> 1024B or 256B
++0x2456 _RAMDSIZE +0x2430
+0x105ccf B_KEYBASE  	 Base address for KEY
++0x0000 _KBWRITE  	 <+2552> 2B: key write pointer
++0x0002 _KBREAD  	 <+2554> 2B: key read pointer
++0x0004 _KBCNT  	 <+2556> 2B: key count
++0x0006 _KEYBUF  	 <+2558> 64B: key buffer
++0x0046 _KEYERR  	 <+2598> 1B: ｴﾗｰｽﾃｰﾀｽ
++0x0048 _KEYDSIZE
+0x105d1a B_RTCBASE  	 Base address for RTC
++0x0000 _RTCW1  	 <+259a> 1B: Write1 ｺﾏﾝﾄﾞ
++0x0001 _RTC_YEAR  	 <+259b> 1B: 年
++0x0002 _RTC_MONTH  	 <+259c> 1B: 月
++0x0003 _RTC_DAY  	 <+259d> 1B: 日
++0x0004 _RTC_WEEK  	 <+259e> 1B: 曜日
++0x0005 _RTC_HOUR  	 <+259f> 1B: 時
++0x0006 _RTC_MINUTE  	 <+25a0> 1B: 分
++0x0007 _RTC_SECOND  	 <+25a1> 1B: 秒
++0x0008 _RTCW1_END  	 <+25a2> 1B: Write1 終了ﾌﾗｸﾞ
++0x0008 _RTCW2  	 <+25a3> 1B: Write2 ｺﾏﾝﾄﾞ
++0x0009 _RTCW2_WEEK  	 <+25a4> 1B: Write2 曜日
++0x000a _RTCW2_HOUR  	 <+25a5> 1B: Write2 時
++0x000b _RTCW2_MINUTE  	 <+25a6> 1B: Write2 分
++0x000c _RTCW2_SECOND  	 <+25a7> 1B: Write2 秒
++0x000d _RTCW2_END  	 <+25a8> 1B: Write2 終了ﾌﾗｸﾞ
++0x000e _RTCERR  	 <+25a9> 1B: ｴﾗｰｽﾃｰﾀｽ
++0x000f _RTCDUMMY  	 <+25aa> 8B: dummy
++0x0017 _RTCDSIZE
+
+
+0x10d3fc		eventtable base address
+
+0x109B00 - 0x10D6FF ファイラー使用           外部SRAM
+0x10D700 - 0x10F1FF ファイラー(子プロセス用) 外部SRAM
+0x10F200 - 0x10FFFF ファイラー予約           外部SRAM
+0x110000 - 0x11FFFF ユーザエリア             外部SRAM
+
+0x110000 〜 0x120000 プログラムエリア
+0x110000 PSP 0x100 byte
+ 0x110080 システム構造体を指すポインタ
+          ただし、バイナリでなく文字 8 つで示す。rupemu では、"00000100" を
+          代入してある。8 byte
+ 0x110088 起動ファイル名
+
+
+0x110100 text エリア
+          実際には、以下のような命令がくる。 jmp 0x83  /* 相対 */
+          つまり、この命令のバイト 3 byte を加えた 110186 からの実行になる。
+
+          空いたこのスペースは、おそらく実行ファイルのアイコンに使われる。
+          詳細は解析後にかかれる。
+0x110186 text エリア（実際）
+0x120000 初期 a[3] の値
+
+
+以下は ROM
+0x200000 - 0x232FFF フォント                 外部MROM
+
+0x233000 - 0x265FFF OS使用(一部ファイラー)   外部MROM
+0x266000 - 0x27FAFF ファイラー               外部MROM
+0x27FB00 - 0x27FFFF ROMDISK (A:ドライブ)     外部MROM
+
+詳しくみると、
+
+0x200000 ASCII font data 6x12 ( no mmp header, 12 bytes/character )
+  addr=0x200000;
+  addr+=(unsigned long)(c-0x20)*12;
+
+0x200900 （SJIS の）フォントアドレス 12x12 ( no mmp header, 24 bytes/character )
+  no=low-0x81;
+  no*=0xbd;
+  no+=(high-0x40);
+  font_addr=0x200900;
+  font_addr+=(unsigned long)no*24;
+0x233000 A_KERNEL  Kernel entry (DS=0x105d80)
+0x27f880 A_ROMDISK ROM disk address
+0x242000 A_BIOS    Address of BIOS initiat
+0x25C800 〜 0x25B8E6 MMP データ
+

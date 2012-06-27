@@ -1,0 +1,683 @@
+COLLECT_SRCS = \
+lib.msvc/codingascii.cpp	\
+lib.msvc/codingbase.cpp	\
+lib.msvc/codingshiftjis.cpp	\
+lib.msvc/cpu.cpp	\
+lib.msvc/mncore.cpp	\
+lib.msvc/mnexpr.cpp	\
+lib.msvc/mnprint.cpp	\
+lib.msvc/print-test.cpp	\
+lib.msvc/register.cpp	\
+lib.msvc/directory.cpp	\
+lib.msvc/directoryconverter.cpp	\
+lib.msvc/directoryelement.cpp	\
+lib.msvc/dirstack.cpp	\
+lib.msvc/dirstacksjis.cpp	\
+lib.msvc/dosdirectory.cpp	\
+lib.msvc/ruputerdirectory.cpp	\
+lib.msvc/unixdirectory.cpp	\
+lib.msvc/extlist.cpp	\
+lib.msvc/filerinibase.cpp	\
+lib.msvc/filerinimgr.cpp	\
+lib.msvc/ufilerini.cpp	\
+lib.msvc/cessjis.cpp	\
+lib.msvc/sdlcdfont.cpp	\
+lib.msvc/aapixel.h	\
+lib.msvc/address.h	\
+lib.msvc/blink.h	\
+lib.msvc/blinkmgr.h	\
+lib.msvc/cessjis.h	\
+lib.msvc/cmlcd.h	\
+lib.msvc/cmlcdfunc.h	\
+lib.msvc/cmlcdfuncaa.h	\
+lib.msvc/cmlcdfuncdefault.h	\
+lib.msvc/cmlcdpix.h	\
+lib.msvc/cmlcdpixaa.h	\
+lib.msvc/cmlcdpixaa_noai.h	\
+lib.msvc/cmlcdpixdefault.h	\
+lib.msvc/cmlcdpixdefault_noai.h	\
+lib.msvc/codingascii.h	\
+lib.msvc/codingbase.h	\
+lib.msvc/codingshiftjis.h	\
+lib.msvc/codingsystem.h	\
+lib.msvc/cpu.h	\
+lib.msvc/directory.h	\
+lib.msvc/directoryconverter.h	\
+lib.msvc/directoryelement.h	\
+lib.msvc/dirstack.h	\
+lib.msvc/dirstacksjis.h	\
+lib.msvc/dosdirectory.h	\
+lib.msvc/exffile.h	\
+lib.msvc/exmemory.h	\
+lib.msvc/extlist.h	\
+lib.msvc/fdmgr.h	\
+lib.msvc/filerini.h	\
+lib.msvc/filerinibase.h	\
+lib.msvc/filerinimgr.h	\
+lib.msvc/frame.h	\
+lib.msvc/internalfont.h	\
+lib.msvc/interruption.h	\
+lib.msvc/key.h	\
+lib.msvc/keybuffer.h	\
+lib.msvc/lcd.h	\
+lib.msvc/lcdblrv.h	\
+lib.msvc/lcdblrvmgr.h	\
+lib.msvc/lcdfunc.h	\
+lib.msvc/lcdport.h	\
+lib.msvc/log.h	\
+lib.msvc/logoutput.h	\
+lib.msvc/logoutputfile.h	\
+lib.msvc/logoutputstderr.h	\
+lib.msvc/memory.h	\
+lib.msvc/memorycpu.h	\
+lib.msvc/mncore.h	\
+lib.msvc/option.h	\
+lib.msvc/optionitem.h	\
+lib.msvc/optionlist.h	\
+lib.msvc/port.h	\
+lib.msvc/psdos.h	\
+lib.msvc/reverse.h	\
+lib.msvc/reversemgr.h	\
+lib.msvc/romgaiji.h	\
+lib.msvc/rommmp.h	\
+lib.msvc/rupaddress.h	\
+lib.msvc/rupstruct.h	\
+lib.msvc/rupsys.h	\
+lib.msvc/ruputer.h	\
+lib.msvc/ruputerdirectory.h	\
+lib.msvc/ruputerexception.h	\
+lib.msvc/sdfile.h	\
+lib.msvc/sdfindfile.h	\
+lib.msvc/sdlcd.h	\
+lib.msvc/sdlcdfont.h	\
+lib.msvc/sdsound.h	\
+lib.msvc/sound.h	\
+lib.msvc/soundasync.h	\
+lib.msvc/soundsync.h	\
+lib.msvc/soundsyncnull.h	\
+lib.msvc/state.h	\
+lib.msvc/systimer.h	\
+lib.msvc/thread.h	\
+lib.msvc/threadable.h	\
+lib.msvc/throwable.h	\
+lib.msvc/timer.h	\
+lib.msvc/timermgr.h	\
+lib.msvc/timerresource.h	\
+lib.msvc/timerresourcemgr.h	\
+lib.msvc/ufilerini.h	\
+lib.msvc/unixdirectory.h	\
+lib.msvc/wbios.h	\
+lib.msvc/x86reg.h	\
+lib.msvc/aapixel.cpp	\
+lib.msvc/blink.cpp	\
+lib.msvc/blinkmgr.cpp	\
+lib.msvc/cmlcd.cpp	\
+lib.msvc/cmlcdfunc.cpp	\
+lib.msvc/cmlcdfuncaa.cpp	\
+lib.msvc/cmlcdfuncdefault.cpp	\
+lib.msvc/cmlcdpix.cpp	\
+lib.msvc/cmlcdpixaa.cpp	\
+lib.msvc/cmlcdpixaa_noai.cpp	\
+lib.msvc/cmlcdpixdefault.cpp	\
+lib.msvc/cmlcdpixdefault_noai.cpp	\
+lib.msvc/lcd.cpp	\
+lib.msvc/lcdblrv.cpp	\
+lib.msvc/lcdblrvmgr.cpp	\
+lib.msvc/lcdfunc.cpp	\
+lib.msvc/lcdport.cpp	\
+lib.msvc/reverse.cpp	\
+lib.msvc/reversemgr.cpp	\
+lib.msvc/sdlcd.cpp	\
+lib.msvc/log.cpp	\
+lib.msvc/logoutput.cpp	\
+lib.msvc/logoutputfile.cpp	\
+lib.msvc/logoutputstderr.cpp	\
+lib.msvc/rupaddress.cpp	\
+lib.msvc/rupstruct.cpp	\
+lib.msvc/ruputer.cpp	\
+lib.msvc/ruputerexception.cpp	\
+lib.msvc/exmemory.cpp	\
+lib.msvc/internalfont.cpp	\
+lib.msvc/memory.cpp	\
+lib.msvc/memorybase.cpp	\
+lib.msvc/memorycpu.cpp	\
+lib.msvc/memoryinside.cpp	\
+lib.msvc/port.cpp	\
+lib.msvc/gaijidata.h	\
+lib.msvc/mmpdata.h	\
+lib.msvc/romgaiji.cpp	\
+lib.msvc/rommmp.cpp	\
+lib.msvc/emu_common.h	\
+lib.msvc/emu_font.h	\
+lib.msvc/emu_gaiji.h	\
+lib.msvc/emu_lcdbios.h	\
+lib.msvc/emu_rupsys.h	\
+lib.msvc/emu_wbios.h	\
+lib.msvc/messages_sjis.h	\
+lib.msvc/native.h	\
+lib.msvc/rupmenucommon.h	\
+lib.msvc/rupsysaddress.h	\
+lib.msvc/softkey.h	\
+lib.msvc/itoa.h	\
+lib.msvc/optionbool.cpp	\
+lib.msvc/optionint.cpp	\
+lib.msvc/optionstring.cpp	\
+lib.msvc/option.cpp	\
+lib.msvc/optionitem.cpp	\
+lib.msvc/optionlist.cpp	\
+lib.msvc/exffile.cpp	\
+lib.msvc/frame.cpp	\
+lib.msvc/interruption.cpp	\
+lib.msvc/key.cpp	\
+lib.msvc/keybuffer.cpp	\
+lib.msvc/fdmgr.cpp	\
+lib.msvc/psdos.cpp	\
+lib.msvc/psdos_file.cpp	\
+lib.msvc/psdos_findfile.cpp	\
+lib.msvc/sdfindfile.cpp	\
+lib.msvc/x86reg.cpp	\
+lib.msvc/rupsys.cpp	\
+lib.msvc/systimer.cpp	\
+lib.msvc/sdsound.cpp	\
+lib.msvc/sound.cpp	\
+lib.msvc/soundasync.cpp	\
+lib.msvc/soundsync.cpp	\
+lib.msvc/soundsyncnull.cpp	\
+lib.msvc/thread.cpp	\
+lib.msvc/timer.cpp	\
+lib.msvc/timermgr.cpp	\
+lib.msvc/timerresource.cpp	\
+lib.msvc/timerresourcemgr.cpp	\
+lib.msvc/wbios.cpp	\
+lib.msvc/wbiossound.cpp	\
+lib.msvc/sdlcdfactory.h	\
+lib.msvc/widgetoption.h	\
+lib.msvc/sdlcdfactory.cpp	\
+lib.msvc/widgetoption.cpp	\
+lib.msvc/winfindfile.cpp	\
+lib.msvc/winlcdfont.cpp	\
+lib.msvc/winlcdfontaa.cpp	\
+lib.msvc/winlcdfontaasjis.cpp	\
+lib.msvc/winlcdfontsjis.cpp	\
+lib.msvc/winlcd.cpp	\
+lib.msvc/winlcd102x64.cpp	\
+lib.msvc/winlcdfactory.cpp	\
+lib.msvc/winlcdflip.cpp	\
+lib.msvc/winfindfile.h	\
+lib.msvc/winframe.h	\
+lib.msvc/winlcd.h	\
+lib.msvc/winlcdfactory.h	\
+lib.msvc/winlcdfont.h	\
+lib.msvc/winlogoutputevent.h	\
+lib.msvc/winoption.h	\
+lib.msvc/winpropwindow.h	\
+lib.msvc/winpropwindowlog.h	\
+lib.msvc/winresource.h	\
+lib.msvc/winruputer.h	\
+lib.msvc/winsound.h	\
+lib.msvc/winlogoutputevent.cpp	\
+lib.msvc/main.cpp	\
+lib.msvc/tmp_file.cpp	\
+lib.msvc/winoption.cpp	\
+lib.msvc/winpropwindow.cpp	\
+lib.msvc/winpropwindowlog.cpp	\
+lib.msvc/language.h	\
+lib.msvc/winsound.cpp	\
+lib.msvc/tmp_file.cpp	\
+lib.msvc/winruputer.cpp	\
+
+collect:: lf2crlf.exe $(COLLECT_SRCS)
+lf2crlf.exe:
+	cl msvc/lf2crlf.c
+lib.msvc/codingascii.cpp: ../common/coding/codingascii.cpp
+	lf2crlf $? $@
+lib.msvc/codingbase.cpp: ../common/coding/codingbase.cpp
+	lf2crlf $? $@
+lib.msvc/codingshiftjis.cpp: ../common/coding/codingshiftjis.cpp
+	lf2crlf $? $@
+lib.msvc/cpu.cpp: ../common/cpu/cpu.cpp
+	lf2crlf $? $@
+lib.msvc/mncore.cpp: ../common/cpu/mncore.cpp
+	lf2crlf $? $@
+lib.msvc/mnexpr.cpp: ../common/cpu/mnexpr.cpp
+	lf2crlf $? $@
+lib.msvc/mnprint.cpp: ../common/cpu/mnprint.cpp
+	lf2crlf $? $@
+lib.msvc/print-test.cpp: ../common/cpu/print-test/src/print-test.cpp
+	lf2crlf $? $@
+lib.msvc/register.cpp: ../common/cpu/register.cpp
+	lf2crlf $? $@
+lib.msvc/directory.cpp: ../common/directory/directory.cpp
+	lf2crlf $? $@
+lib.msvc/directoryconverter.cpp: ../common/directory/directoryconverter.cpp
+	lf2crlf $? $@
+lib.msvc/directoryelement.cpp: ../common/directory/directoryelement.cpp
+	lf2crlf $? $@
+lib.msvc/dirstack.cpp: ../common/directory/dirstack.cpp
+	lf2crlf $? $@
+lib.msvc/dirstacksjis.cpp: ../common/directory/dirstacksjis.cpp
+	lf2crlf $? $@
+lib.msvc/dosdirectory.cpp: ../common/directory/dosdirectory.cpp
+	lf2crlf $? $@
+lib.msvc/ruputerdirectory.cpp: ../common/directory/ruputerdirectory.cpp
+	lf2crlf $? $@
+lib.msvc/unixdirectory.cpp: ../common/directory/unixdirectory.cpp
+	lf2crlf $? $@
+lib.msvc/extlist.cpp: ../common/filerini/extlist.cpp
+	lf2crlf $? $@
+lib.msvc/filerinibase.cpp: ../common/filerini/filerinibase.cpp
+	lf2crlf $? $@
+lib.msvc/filerinimgr.cpp: ../common/filerini/filerinimgr.cpp
+	lf2crlf $? $@
+lib.msvc/ufilerini.cpp: ../common/filerini/ufilerini.cpp
+	lf2crlf $? $@
+lib.msvc/cessjis.cpp: ../common/font/cessjis.cpp
+	lf2crlf $? $@
+lib.msvc/sdlcdfont.cpp: ../common/font/sdlcdfont.cpp
+	lf2crlf $? $@
+lib.msvc/aapixel.h: ../common/include/aapixel.h
+	lf2crlf $? $@
+lib.msvc/address.h: ../common/include/address.h
+	lf2crlf $? $@
+lib.msvc/blink.h: ../common/include/blink.h
+	lf2crlf $? $@
+lib.msvc/blinkmgr.h: ../common/include/blinkmgr.h
+	lf2crlf $? $@
+lib.msvc/cessjis.h: ../common/include/cessjis.h
+	lf2crlf $? $@
+lib.msvc/cmlcd.h: ../common/include/cmlcd.h
+	lf2crlf $? $@
+lib.msvc/cmlcdfunc.h: ../common/include/cmlcdfunc.h
+	lf2crlf $? $@
+lib.msvc/cmlcdfuncaa.h: ../common/include/cmlcdfuncaa.h
+	lf2crlf $? $@
+lib.msvc/cmlcdfuncdefault.h: ../common/include/cmlcdfuncdefault.h
+	lf2crlf $? $@
+lib.msvc/cmlcdpix.h: ../common/include/cmlcdpix.h
+	lf2crlf $? $@
+lib.msvc/cmlcdpixaa.h: ../common/include/cmlcdpixaa.h
+	lf2crlf $? $@
+lib.msvc/cmlcdpixaa_noai.h: ../common/include/cmlcdpixaa_noai.h
+	lf2crlf $? $@
+lib.msvc/cmlcdpixdefault.h: ../common/include/cmlcdpixdefault.h
+	lf2crlf $? $@
+lib.msvc/cmlcdpixdefault_noai.h: ../common/include/cmlcdpixdefault_noai.h
+	lf2crlf $? $@
+lib.msvc/codingascii.h: ../common/include/codingascii.h
+	lf2crlf $? $@
+lib.msvc/codingbase.h: ../common/include/codingbase.h
+	lf2crlf $? $@
+lib.msvc/codingshiftjis.h: ../common/include/codingshiftjis.h
+	lf2crlf $? $@
+lib.msvc/codingsystem.h: ../common/include/codingsystem.h
+	lf2crlf $? $@
+lib.msvc/cpu.h: ../common/include/cpu.h
+	lf2crlf $? $@
+lib.msvc/directory.h: ../common/include/directory.h
+	lf2crlf $? $@
+lib.msvc/directoryconverter.h: ../common/include/directoryconverter.h
+	lf2crlf $? $@
+lib.msvc/directoryelement.h: ../common/include/directoryelement.h
+	lf2crlf $? $@
+lib.msvc/dirstack.h: ../common/include/dirstack.h
+	lf2crlf $? $@
+lib.msvc/dirstacksjis.h: ../common/include/dirstacksjis.h
+	lf2crlf $? $@
+lib.msvc/dosdirectory.h: ../common/include/dosdirectory.h
+	lf2crlf $? $@
+lib.msvc/exffile.h: ../common/include/exffile.h
+	lf2crlf $? $@
+lib.msvc/exmemory.h: ../common/include/exmemory.h
+	lf2crlf $? $@
+lib.msvc/extlist.h: ../common/include/extlist.h
+	lf2crlf $? $@
+lib.msvc/fdmgr.h: ../common/include/fdmgr.h
+	lf2crlf $? $@
+lib.msvc/filerini.h: ../common/include/filerini.h
+	lf2crlf $? $@
+lib.msvc/filerinibase.h: ../common/include/filerinibase.h
+	lf2crlf $? $@
+lib.msvc/filerinimgr.h: ../common/include/filerinimgr.h
+	lf2crlf $? $@
+lib.msvc/frame.h: ../common/include/frame.h
+	lf2crlf $? $@
+lib.msvc/internalfont.h: ../common/include/internalfont.h
+	lf2crlf $? $@
+lib.msvc/interruption.h: ../common/include/interruption.h
+	lf2crlf $? $@
+lib.msvc/key.h: ../common/include/key.h
+	lf2crlf $? $@
+lib.msvc/keybuffer.h: ../common/include/keybuffer.h
+	lf2crlf $? $@
+lib.msvc/lcd.h: ../common/include/lcd.h
+	lf2crlf $? $@
+lib.msvc/lcdblrv.h: ../common/include/lcdblrv.h
+	lf2crlf $? $@
+lib.msvc/lcdblrvmgr.h: ../common/include/lcdblrvmgr.h
+	lf2crlf $? $@
+lib.msvc/lcdfunc.h: ../common/include/lcdfunc.h
+	lf2crlf $? $@
+lib.msvc/lcdport.h: ../common/include/lcdport.h
+	lf2crlf $? $@
+lib.msvc/log.h: ../common/include/log.h
+	lf2crlf $? $@
+lib.msvc/logoutput.h: ../common/include/logoutput.h
+	lf2crlf $? $@
+lib.msvc/logoutputfile.h: ../common/include/logoutputfile.h
+	lf2crlf $? $@
+lib.msvc/logoutputstderr.h: ../common/include/logoutputstderr.h
+	lf2crlf $? $@
+lib.msvc/memory.h: ../common/include/memory.h
+	lf2crlf $? $@
+lib.msvc/memorycpu.h: ../common/include/memorycpu.h
+	lf2crlf $? $@
+lib.msvc/mncore.h: ../common/include/mncore.h
+	lf2crlf $? $@
+lib.msvc/option.h: ../common/include/option.h
+	lf2crlf $? $@
+lib.msvc/optionitem.h: ../common/include/optionitem.h
+	lf2crlf $? $@
+lib.msvc/optionlist.h: ../common/include/optionlist.h
+	lf2crlf $? $@
+lib.msvc/port.h: ../common/include/port.h
+	lf2crlf $? $@
+lib.msvc/psdos.h: ../common/include/psdos.h
+	lf2crlf $? $@
+lib.msvc/reverse.h: ../common/include/reverse.h
+	lf2crlf $? $@
+lib.msvc/reversemgr.h: ../common/include/reversemgr.h
+	lf2crlf $? $@
+lib.msvc/romgaiji.h: ../common/include/romgaiji.h
+	lf2crlf $? $@
+lib.msvc/rommmp.h: ../common/include/rommmp.h
+	lf2crlf $? $@
+lib.msvc/rupaddress.h: ../common/include/rupaddress.h
+	lf2crlf $? $@
+lib.msvc/rupstruct.h: ../common/include/rupstruct.h
+	lf2crlf $? $@
+lib.msvc/rupsys.h: ../common/include/rupsys.h
+	lf2crlf $? $@
+lib.msvc/ruputer.h: ../common/include/ruputer.h
+	lf2crlf $? $@
+lib.msvc/ruputerdirectory.h: ../common/include/ruputerdirectory.h
+	lf2crlf $? $@
+lib.msvc/ruputerexception.h: ../common/include/ruputerexception.h
+	lf2crlf $? $@
+lib.msvc/sdfile.h: ../common/include/sdfile.h
+	lf2crlf $? $@
+lib.msvc/sdfindfile.h: ../common/include/sdfindfile.h
+	lf2crlf $? $@
+lib.msvc/sdlcd.h: ../common/include/sdlcd.h
+	lf2crlf $? $@
+lib.msvc/sdlcdfont.h: ../common/include/sdlcdfont.h
+	lf2crlf $? $@
+lib.msvc/sdsound.h: ../common/include/sdsound.h
+	lf2crlf $? $@
+lib.msvc/sound.h: ../common/include/sound.h
+	lf2crlf $? $@
+lib.msvc/soundasync.h: ../common/include/soundasync.h
+	lf2crlf $? $@
+lib.msvc/soundsync.h: ../common/include/soundsync.h
+	lf2crlf $? $@
+lib.msvc/soundsyncnull.h: ../common/include/soundsyncnull.h
+	lf2crlf $? $@
+lib.msvc/state.h: ../common/include/state.h
+	lf2crlf $? $@
+lib.msvc/systimer.h: ../common/include/systimer.h
+	lf2crlf $? $@
+lib.msvc/thread.h: ../common/include/thread.h
+	lf2crlf $? $@
+lib.msvc/threadable.h: ../common/include/threadable.h
+	lf2crlf $? $@
+lib.msvc/throwable.h: ../common/include/throwable.h
+	lf2crlf $? $@
+lib.msvc/timer.h: ../common/include/timer.h
+	lf2crlf $? $@
+lib.msvc/timermgr.h: ../common/include/timermgr.h
+	lf2crlf $? $@
+lib.msvc/timerresource.h: ../common/include/timerresource.h
+	lf2crlf $? $@
+lib.msvc/timerresourcemgr.h: ../common/include/timerresourcemgr.h
+	lf2crlf $? $@
+lib.msvc/ufilerini.h: ../common/include/ufilerini.h
+	lf2crlf $? $@
+lib.msvc/unixdirectory.h: ../common/include/unixdirectory.h
+	lf2crlf $? $@
+lib.msvc/wbios.h: ../common/include/wbios.h
+	lf2crlf $? $@
+lib.msvc/x86reg.h: ../common/include/x86reg.h
+	lf2crlf $? $@
+lib.msvc/aapixel.cpp: ../common/lcd/aapixel.cpp
+	lf2crlf $? $@
+lib.msvc/blink.cpp: ../common/lcd/blink.cpp
+	lf2crlf $? $@
+lib.msvc/blinkmgr.cpp: ../common/lcd/blinkmgr.cpp
+	lf2crlf $? $@
+lib.msvc/cmlcd.cpp: ../common/lcd/cmlcd.cpp
+	lf2crlf $? $@
+lib.msvc/cmlcdfunc.cpp: ../common/lcd/cmlcdfunc.cpp
+	lf2crlf $? $@
+lib.msvc/cmlcdfuncaa.cpp: ../common/lcd/cmlcdfuncaa.cpp
+	lf2crlf $? $@
+lib.msvc/cmlcdfuncdefault.cpp: ../common/lcd/cmlcdfuncdefault.cpp
+	lf2crlf $? $@
+lib.msvc/cmlcdpix.cpp: ../common/lcd/cmlcdpix.cpp
+	lf2crlf $? $@
+lib.msvc/cmlcdpixaa.cpp: ../common/lcd/cmlcdpixaa.cpp
+	lf2crlf $? $@
+lib.msvc/cmlcdpixaa_noai.cpp: ../common/lcd/cmlcdpixaa_noai.cpp
+	lf2crlf $? $@
+lib.msvc/cmlcdpixdefault.cpp: ../common/lcd/cmlcdpixdefault.cpp
+	lf2crlf $? $@
+lib.msvc/cmlcdpixdefault_noai.cpp: ../common/lcd/cmlcdpixdefault_noai.cpp
+	lf2crlf $? $@
+lib.msvc/lcd.cpp: ../common/lcd/lcd.cpp
+	lf2crlf $? $@
+lib.msvc/lcdblrv.cpp: ../common/lcd/lcdblrv.cpp
+	lf2crlf $? $@
+lib.msvc/lcdblrvmgr.cpp: ../common/lcd/lcdblrvmgr.cpp
+	lf2crlf $? $@
+lib.msvc/lcdfunc.cpp: ../common/lcd/lcdfunc.cpp
+	lf2crlf $? $@
+lib.msvc/lcdport.cpp: ../common/lcd/lcdport.cpp
+	lf2crlf $? $@
+lib.msvc/reverse.cpp: ../common/lcd/reverse.cpp
+	lf2crlf $? $@
+lib.msvc/reversemgr.cpp: ../common/lcd/reversemgr.cpp
+	lf2crlf $? $@
+lib.msvc/sdlcd.cpp: ../common/lcd/sdlcd.cpp
+	lf2crlf $? $@
+lib.msvc/log.cpp: ../common/log/log.cpp
+	lf2crlf $? $@
+lib.msvc/logoutput.cpp: ../common/log/logoutput.cpp
+	lf2crlf $? $@
+lib.msvc/logoutputfile.cpp: ../common/log/logoutputfile.cpp
+	lf2crlf $? $@
+lib.msvc/logoutputstderr.cpp: ../common/log/logoutputstderr.cpp
+	lf2crlf $? $@
+lib.msvc/rupaddress.cpp: ../common/main/rupaddress.cpp
+	lf2crlf $? $@
+lib.msvc/rupstruct.cpp: ../common/main/rupstruct.cpp
+	lf2crlf $? $@
+lib.msvc/ruputer.cpp: ../common/main/ruputer.cpp
+	lf2crlf $? $@
+lib.msvc/ruputerexception.cpp: ../common/main/ruputerexception.cpp
+	lf2crlf $? $@
+lib.msvc/exmemory.cpp: ../common/memory/exmemory.cpp
+	lf2crlf $? $@
+lib.msvc/internalfont.cpp: ../common/memory/internalfont.cpp
+	lf2crlf $? $@
+lib.msvc/memory.cpp: ../common/memory/memory.cpp
+	lf2crlf $? $@
+lib.msvc/memorybase.cpp: ../common/memory/memorybase.cpp
+	lf2crlf $? $@
+lib.msvc/memorycpu.cpp: ../common/memory/memorycpu.cpp
+	lf2crlf $? $@
+lib.msvc/memoryinside.cpp: ../common/memory/memoryinside.cpp
+	lf2crlf $? $@
+lib.msvc/port.cpp: ../common/memory/port.cpp
+	lf2crlf $? $@
+lib.msvc/gaijidata.h: ../common/mmp/gaijidata.h
+	lf2crlf $? $@
+lib.msvc/mmpdata.h: ../common/mmp/mmpdata.h
+	lf2crlf $? $@
+lib.msvc/romgaiji.cpp: ../common/mmp/romgaiji.cpp
+	lf2crlf $? $@
+lib.msvc/rommmp.cpp: ../common/mmp/rommmp.cpp
+	lf2crlf $? $@
+lib.msvc/emu_common.h: ../common/native/common/emu_common.h
+	lf2crlf $? $@
+lib.msvc/emu_font.h: ../common/native/common/emu_font.h
+	lf2crlf $? $@
+lib.msvc/emu_gaiji.h: ../common/native/common/emu_gaiji.h
+	lf2crlf $? $@
+lib.msvc/emu_lcdbios.h: ../common/native/common/emu_lcdbios.h
+	lf2crlf $? $@
+lib.msvc/emu_rupsys.h: ../common/native/common/emu_rupsys.h
+	lf2crlf $? $@
+lib.msvc/emu_wbios.h: ../common/native/common/emu_wbios.h
+	lf2crlf $? $@
+lib.msvc/messages_sjis.h: ../common/native/disp/messages_sjis.h
+	lf2crlf $? $@
+lib.msvc/native.h: ../common/native/native.h
+	lf2crlf $? $@
+lib.msvc/rupmenucommon.h: ../common/native/rupmenu/rupmenucommon.h
+	lf2crlf $? $@
+lib.msvc/rupsysaddress.h: ../common/native/rupsysaddress.h
+	lf2crlf $? $@
+lib.msvc/softkey.h: ../common/native/softkey/softkey.h
+	lf2crlf $? $@
+lib.msvc/itoa.h: ../common/native/util/itoa.h
+	lf2crlf $? $@
+lib.msvc/optionbool.cpp: ../common/option/item/optionbool.cpp
+	lf2crlf $? $@
+lib.msvc/optionint.cpp: ../common/option/item/optionint.cpp
+	lf2crlf $? $@
+lib.msvc/optionstring.cpp: ../common/option/item/optionstring.cpp
+	lf2crlf $? $@
+lib.msvc/option.cpp: ../common/option/option.cpp
+	lf2crlf $? $@
+lib.msvc/optionitem.cpp: ../common/option/optionitem.cpp
+	lf2crlf $? $@
+lib.msvc/optionlist.cpp: ../common/option/optionlist.cpp
+	lf2crlf $? $@
+lib.msvc/exffile.cpp: ../common/other/exffile.cpp
+	lf2crlf $? $@
+lib.msvc/frame.cpp: ../common/other/frame.cpp
+	lf2crlf $? $@
+lib.msvc/interruption.cpp: ../common/other/interruption.cpp
+	lf2crlf $? $@
+lib.msvc/key.cpp: ../common/other/key.cpp
+	lf2crlf $? $@
+lib.msvc/keybuffer.cpp: ../common/other/keybuffer.cpp
+	lf2crlf $? $@
+lib.msvc/fdmgr.cpp: ../common/psdos/fdmgr.cpp
+	lf2crlf $? $@
+lib.msvc/psdos.cpp: ../common/psdos/psdos.cpp
+	lf2crlf $? $@
+lib.msvc/psdos_file.cpp: ../common/psdos/psdos_file.cpp
+	lf2crlf $? $@
+lib.msvc/psdos_findfile.cpp: ../common/psdos/psdos_findfile.cpp
+	lf2crlf $? $@
+lib.msvc/sdfindfile.cpp: ../common/psdos/sdfindfile.cpp
+	lf2crlf $? $@
+lib.msvc/x86reg.cpp: ../common/psdos/x86reg.cpp
+	lf2crlf $? $@
+lib.msvc/rupsys.cpp: ../common/rupsys/rupsys.cpp
+	lf2crlf $? $@
+lib.msvc/systimer.cpp: ../common/rupsys/systimer.cpp
+	lf2crlf $? $@
+lib.msvc/sdsound.cpp: ../common/sound/sdsound.cpp
+	lf2crlf $? $@
+lib.msvc/sound.cpp: ../common/sound/sound.cpp
+	lf2crlf $? $@
+lib.msvc/soundasync.cpp: ../common/sound/soundasync.cpp
+	lf2crlf $? $@
+lib.msvc/soundsync.cpp: ../common/sound/soundsync.cpp
+	lf2crlf $? $@
+lib.msvc/soundsyncnull.cpp: ../common/sound/soundsyncnull.cpp
+	lf2crlf $? $@
+lib.msvc/thread.cpp: ../common/thread/thread.cpp
+	lf2crlf $? $@
+lib.msvc/timer.cpp: ../common/timer/timer.cpp
+	lf2crlf $? $@
+lib.msvc/timermgr.cpp: ../common/timer/timermgr.cpp
+	lf2crlf $? $@
+lib.msvc/timerresource.cpp: ../common/timer/timerresource.cpp
+	lf2crlf $? $@
+lib.msvc/timerresourcemgr.cpp: ../common/timer/timerresourcemgr.cpp
+	lf2crlf $? $@
+lib.msvc/wbios.cpp: ../common/wbios/wbios.cpp
+	lf2crlf $? $@
+lib.msvc/wbiossound.cpp: ../common/wbios/wbiossound.cpp
+	lf2crlf $? $@
+lib.msvc/sdlcdfactory.h: ../widgetlib/include/sdlcdfactory.h
+	lf2crlf $? $@
+lib.msvc/widgetoption.h: ../widgetlib/include/widgetoption.h
+	lf2crlf $? $@
+lib.msvc/sdlcdfactory.cpp: ../widgetlib/lcd/sdlcdfactory.cpp
+	lf2crlf $? $@
+lib.msvc/widgetoption.cpp: ../widgetlib/option/widgetoption.cpp
+	lf2crlf $? $@
+lib.msvc/winfindfile.cpp: ../windows/findfile/winfindfile.cpp
+	lf2crlf $? $@
+lib.msvc/winlcdfont.cpp: ../windows/font/winlcdfont.cpp
+	lf2crlf $? $@
+lib.msvc/winlcdfontaa.cpp: ../windows/font/winlcdfontaa.cpp
+	lf2crlf $? $@
+lib.msvc/winlcdfontaasjis.cpp: ../windows/font/winlcdfontaasjis.cpp
+	lf2crlf $? $@
+lib.msvc/winlcdfontsjis.cpp: ../windows/font/winlcdfontsjis.cpp
+	lf2crlf $? $@
+lib.msvc/winlcd.cpp: ../windows/graphic/winlcd.cpp
+	lf2crlf $? $@
+lib.msvc/winlcd102x64.cpp: ../windows/graphic/winlcd102x64.cpp
+	lf2crlf $? $@
+lib.msvc/winlcdfactory.cpp: ../windows/graphic/winlcdfactory.cpp
+	lf2crlf $? $@
+lib.msvc/winlcdflip.cpp: ../windows/graphic/winlcdflip.cpp
+	lf2crlf $? $@
+lib.msvc/winfindfile.h: ../windows/include/winfindfile.h
+	lf2crlf $? $@
+lib.msvc/winframe.h: ../windows/include/winframe.h
+	lf2crlf $? $@
+lib.msvc/winlcd.h: ../windows/include/winlcd.h
+	lf2crlf $? $@
+lib.msvc/winlcdfactory.h: ../windows/include/winlcdfactory.h
+	lf2crlf $? $@
+lib.msvc/winlcdfont.h: ../windows/include/winlcdfont.h
+	lf2crlf $? $@
+lib.msvc/winlogoutputevent.h: ../windows/include/winlogoutputevent.h
+	lf2crlf $? $@
+lib.msvc/winoption.h: ../windows/include/winoption.h
+	lf2crlf $? $@
+lib.msvc/winpropwindow.h: ../windows/include/winpropwindow.h
+	lf2crlf $? $@
+lib.msvc/winpropwindowlog.h: ../windows/include/winpropwindowlog.h
+	lf2crlf $? $@
+lib.msvc/winresource.h: ../windows/include/winresource.h
+	lf2crlf $? $@
+lib.msvc/winruputer.h: ../windows/include/winruputer.h
+	lf2crlf $? $@
+lib.msvc/winsound.h: ../windows/include/winsound.h
+	lf2crlf $? $@
+lib.msvc/winlogoutputevent.cpp: ../windows/log/winlogoutputevent.cpp
+	lf2crlf $? $@
+lib.msvc/main.cpp: ../windows/main.cpp
+	lf2crlf $? $@
+lib.msvc/tmp_file.cpp: ../windows/msvc/tmp_file.cpp
+	lf2crlf $? $@
+lib.msvc/winoption.cpp: ../windows/option/winoption.cpp
+	lf2crlf $? $@
+lib.msvc/winpropwindow.cpp: ../windows/option/winpropwindow.cpp
+	lf2crlf $? $@
+lib.msvc/winpropwindowlog.cpp: ../windows/option/winpropwindowlog.cpp
+	lf2crlf $? $@
+lib.msvc/language.h: ../windows/resource/language.h
+	lf2crlf $? $@
+lib.msvc/winsound.cpp: ../windows/sound/winsound.cpp
+	lf2crlf $? $@
+lib.msvc/tmp_file.cpp: ../windows/tmp_file.cpp
+	lf2crlf $? $@
+lib.msvc/winruputer.cpp: ../windows/winruputer.cpp
+	lf2crlf $? $@

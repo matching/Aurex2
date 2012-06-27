@@ -1,0 +1,115 @@
+# -*-makefile-*-
+# $Id: Makefile.zau,v 1.14 2006/03/06 17:09:43 fumi Exp $
+
+# PATH=/opt/Embedix/tools/bin:$PATH make -f Makefile.zau CXX="/usr/local/ccache/bin/ccache arm-linux-g++" OPTIMIZE=-O2
+# /opt/Embedix/tools/bin/arm-linux-strip qtaurex
+
+OPTIMIZE=
+#-O2 -fomit-frame-pointer
+
+TARGET= qtaurex
+
+MOC_SRCS=include/qteruputer.h include/qtefiledialog.h
+MOC_OBJS=include/moc_qteruputer.o include/moc_qtefiledialog.o
+
+SRCS=	main.cpp	\
+	qteruputer.cpp \
+	graphic/qtelcd.cpp	\
+	font/qtelcdfont.cpp	\
+	filedialog/qtefiledialog.cpp
+
+OBJS=$(SRCS:%.cpp=%.o) $(MOC_OBJS) qteruputer_load.o
+
+
+LIBCOMMON=librupcommon.a
+LIBCOMMONDIR=zau.common
+
+#QTINCLUDE=/usr/local/zaurus/devel/Qtopia/sharp/include/
+
+QTBASE=/opt/Qtopia/sharp
+QTINCLUDE=$(QTBASE)/include
+QTLIBDIR=$(QTBASE)/lib
+
+QTLIBS=-lzdtm -lsl -lqpe -lqte
+
+# QTLIBS=-lqpe -lqte
+
+
+# QTLIBS=-lqpe -lqte -ljpeg
+# QTLIBS=-lqpe -luuid  -ljpeg -lqtopiacalc -lqpepim -lqtopia  
+
+MOC=/opt/Qtopia/bin/moc
+
+LIBUNIX=libunixlib.a
+LIBUNIXDIR=zau.unixlib
+
+INCLUDE=-Iinclude -I../common/include -I../widgetlib/include -I../unixlib/include
+
+CXX=arm-linux-g++
+CXXFLAGS=-pthread -DZAURUS -DQT_QWS_EBX -DQT_QWS_CUSTOM -DQWS -DFAIL_NOT_ALIGNED_ADDRESS -fno-rtti -fno-exceptions -DNO_DEBUG -Wall $(INCLUDE) -I$(QTINCLUDE) $(OPTIMIZE) -DFILEDIALOG
+
+CXXFLAGS_SD="-pthread -DHAVE_SDCONFIG"
+LDFLAGS=
+
+$(TARGET): commonlib unixlib $(OBJS)
+#	$(CXX) --mno-cygwin -mwindows -o $(TARGET) $(OBJS)  lib/librupcommon.a
+	$(CXX) $(LDFLAGS) -o $(TARGET) $(OBJS)  -L$(LIBUNIXDIR) -lunixlib -L$(LIBCOMMONDIR) -lrupcommon -L$(QTLIBDIR) $(QTLIBS) -pthread
+# 	LD_LIBRARY_PATH=$(QTLIBDIR)  && \
+
+commonlib: $(LIBCOMMONDIR)/$(LIBCOMMON)
+	make -C ../common/ TARGET_DIR=../qte/$(LIBCOMMONDIR) CXX="$(CXX)" CXXFLAGS_SD=$(CXXFLAGS_SD)  INCLUDE_SD=-I../qte/include
+
+$(LIBCOMMONDIR)/$(LIBCOMMON):
+	mkdir -p $(LIBCOMMONDIR)
+
+unixlib: $(LIBUNIXDIR)/$(LIBUNIX)
+	$(MAKE) -C ../unixlib/ TARGET_DIR=../qte/$(LIBUNIXDIR)  CXXFLAGS_SD=$(CXXFLAGS_SD)
+
+$(LIBUNIXDIR)/$(LIBUNIX):
+	mkdir -p $(LIBUNIXDIR)
+
+
+release: $(TARGET)
+	cp qtaurex release/opt/QtPalmtop/bin/qtaurex
+	ipkg-build release
+
+clean:
+	-rm $(OBJS) $(TARGET)
+	-rm -rf $(LIBUNIXDIR) $(LIBCOMMONDIR)
+
+
+distclean: clean
+	-rm $(DEPFILE)
+	make -C ../common/ distclean
+
+
+DEPFILE=makefile.dep
+depend: dependlocal dependcommon
+
+dependcommon:
+	make -C ../common depend
+
+dependlocal:
+	for file in $(SRCS); do					\
+		arm-linux-cpp -MM $(CXXFLAGS) $(INCLUDE) -I$(QTINCLUDE) $$file ;			\
+	done > $(DEPFILE)
+
+-include $(DEPFILE)
+
+
+# include/moc_qteruputer.o: include/moc_qteruputer.cpp
+# 	$(CXX) $(CXXFLAGS) -fno-rtti -fno-exceptions -o $@ $<
+
+# include/moc_qtefiledialog.o: include/moc_qtefiledialog.cpp
+# 	$(CXX) $(CXXFLAGS) -fno-rtti -fno-exceptions -o $@ $<
+
+qteruputer_load.o: qteruputer_load.cpp
+	$(CXX) -pthread -DZAURUS -DQT_QWS_EBX -DQT_QWS_CUSTOM -DQWS -DFAIL_NOT_ALIGNED_ADDRESS -DNO_DEBUG -Wall $(INCLUDE) -I$(QTINCLUDE) $(OPTIMIZE) $(DEFINES) -c -o $@ $<
+
+
+
+include/moc_qteruputer.cpp: include/qteruputer.h
+	$(MOC) $< -o $@
+
+include/moc_qtefiledialog.cpp: include/qtefiledialog.h
+	$(MOC) $< -o $@
