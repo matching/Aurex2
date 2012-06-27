@@ -21,8 +21,8 @@ CXXFLAGS=$(CXXFLAGS_SD) -Wall $(INCLUDE_SD) $(INCLUDE) $(OPTIMIZE)
 
 $(TARGET_DIR)/$(TARGET): $(OBJS)
 #	$(CXX) -o $(TARGET) $(OBJS)
-	ar cru $(TARGET_DIR)/$(TARGET) $(OBJS)
-	ranlib $(TARGET_DIR)/$(TARGET)
+	$(AR) cru $(TARGET_DIR)/$(TARGET) $(OBJS)
+	$(RANLIB) $(TARGET_DIR)/$(TARGET)
 
 distclean:
 	-rm $(OBJS) $(TARGET)

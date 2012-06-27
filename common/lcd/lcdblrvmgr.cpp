@@ -3,7 +3,7 @@
  *
  * $Id: lcdblrvmgr.cpp,v 1.13 2006/02/16 13:05:12 fumi Exp $
  *
- * Copyright (C) 2004 Fumihiko MACHIDA <machida@users.sourceforge.jp>
+ * Copyright (C) 2004, 2012 Fumihiko MACHIDA <machida@users.sourceforge.jp>
  * All rights reserved.
  *
  * This is free software with ABSOLUTELY NO WARRANTY.
@@ -24,6 +24,8 @@
  * 02111-1307, USA
  */
 
+#include <stdlib.h>
+#include <string.h>
 
 #include "cmlcd.h"
 #include "lcdblrv.h"

@@ -3,7 +3,7 @@
  *
  * $Id: cmlcdpixdefault.cpp,v 1.9 2006/02/19 13:04:40 fumi Exp $
  *
- * Copyright (C) 2004 Fumihiko MACHIDA <machida@users.sourceforge.jp>
+ * Copyright (C) 2004, 2012 Fumihiko MACHIDA <machida@users.sourceforge.jp>
  * All rights reserved.
  *
  * This is free software with ABSOLUTELY NO WARRANTY.
@@ -28,6 +28,10 @@
 
 #include <stdio.h>
 #include <assert.h>
+
+
+#include <stdlib.h>
+#include <string.h>
 
 
 #include "cmlcdpix.h"

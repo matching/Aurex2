@@ -3,7 +3,7 @@
  *
  * $Id: filerinimgr.cpp,v 1.6 2005/01/06 14:21:33 fumi Exp $
  *
- * Copyright (C) 2004 Fumihiko MACHIDA <machida@users.sourceforge.jp>
+ * Copyright (C) 2004, 2012 Fumihiko MACHIDA <machida@users.sourceforge.jp>
  * All rights reserved.
  *
  * This is free software with ABSOLUTELY NO WARRANTY.
@@ -23,6 +23,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
  * 02111-1307, USA
  */
+
+#include <string.h>
 
 #include "filerini.h"
 #include "ufilerini.h"

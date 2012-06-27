@@ -3,7 +3,7 @@
  *
  * $Id: cmlcdpix.cpp,v 1.4 2006/02/16 18:19:40 fumi Exp $
  *
- * Copyright (C) 2004, 2005 Fumihiko MACHIDA <machida@users.sourceforge.jp>
+ * Copyright (C) 2004, 2005, 2012 Fumihiko MACHIDA <machida@users.sourceforge.jp>
  * All rights reserved.
  *
  * This is free software with ABSOLUTELY NO WARRANTY.
@@ -27,6 +27,8 @@
 
 #include "cmlcdpix.h"
 
+#include <stdlib.h>
+#include <string.h>
 
 #include <vector>
 #include <iterator>
